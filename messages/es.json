@@ -1,0 +1,45 @@
+{
+  "common": {
+    "search": "Buscar anime",
+    "english": "Inglés",
+    "spanish": "Español",
+    "menu": "Menú",
+    "close": "Cerrar"
+  },
+  "header": {
+    "howItWorks": "Cómo funciona",
+    "rankings": "Rankings"
+  },
+  "hero": {
+    "eyebrow": "AGREGADOR DE PUNTUACIONES DE ANIME",
+    "titleLine1": "Todas las valoraciones.",
+    "titleLine2": "Un solo consenso.",
+    "description": "Compara las puntuaciones de las plataformas que conoces. Un anime, múltiples perspectivas, una puntuación normalizada.",
+    "searchPlaceholder": "Busca un anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "CÓMO FUNCIONA",
+    "title": "Un anime. Múltiples perspectivas.",
+    "description": "Anime Consensus reúne valoraciones de varias plataformas, normaliza sus diferentes sistemas de puntuación y calcula un consenso transparente.",
+    "source": {
+      "title": "Múltiples fuentes",
+      "description": "Recopilamos puntuaciones de las principales plataformas de anime y entretenimiento."
+    },
+    "normalize": {
+      "title": "Una sola escala",
+      "description": "Los diferentes sistemas de puntuación se normalizan a una escala común de 0 a 10."
+    },
+    "consensus": {
+      "title": "Un consenso",
+      "description": "Las puntuaciones individuales se combinan en una valoración global transparente."
+    }
+  },
+  "footer": {
+    "tagline": "Puntuaciones de anime, medidas."
+  }
+}

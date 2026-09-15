@@ -1,0 +1,45 @@
+{
+  "common": {
+    "search": "Search anime",
+    "english": "English",
+    "spanish": "Spanish",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "header": {
+    "howItWorks": "How it works",
+    "rankings": "Rankings"
+  },
+  "hero": {
+    "eyebrow": "ANIME RATING AGGREGATOR",
+    "titleLine1": "Every rating.",
+    "titleLine2": "One consensus.",
+    "description": "Compare ratings from the platforms you trust. One anime, multiple perspectives, one normalized score.",
+    "searchPlaceholder": "Search for an anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "HOW IT WORKS",
+    "title": "One anime. Multiple perspectives.",
+    "description": "Anime Consensus brings ratings from multiple platforms together, normalizes their different scoring systems, and calculates a transparent consensus score.",
+    "source": {
+      "title": "Multiple sources",
+      "description": "We collect ratings from major anime and entertainment platforms."
+    },
+    "normalize": {
+      "title": "One scale",
+      "description": "Different rating systems are normalized to a common 0–10 scale."
+    },
+    "consensus": {
+      "title": "One consensus",
+      "description": "The individual scores are combined into a transparent overall rating."
+    }
+  },
+  "footer": {
+    "tagline": "Anime ratings, measured."
+  }
+}
