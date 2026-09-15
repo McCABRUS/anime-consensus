@@ -8,6 +8,8 @@ export type RatingProvider =
   | "animenewsnetwork"
   | "crunchyroll";
 
+export type RatingSourceStatus = "available" | "unavailable" | "error";
+
 export type ProviderIdentity = {
   provider: AnimeProvider;
   id: string;
@@ -51,6 +53,12 @@ export type AnimeRating = {
   fetchedAt: string;
 };
 
+export type AnimeRatingSource = {
+  provider: RatingProvider;
+  status: RatingSourceStatus;
+  rating: AnimeRating | null;
+};
+
 export type AnimeDetails = {
   reference: ProviderIdentity;
 
@@ -85,8 +93,6 @@ export type AnimeDetails = {
   productionCompanies?: string[];
 
   source: string | null;
-
-  rating: AnimeRating | null;
 
   popularity: number | null;
 };
@@ -129,4 +135,6 @@ export type CanonicalAnime = {
   source: string | null;
 
   ratings: AnimeRating[];
+
+  ratingSources: AnimeRatingSource[];
 };

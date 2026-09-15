@@ -4,6 +4,8 @@ import { getJikanAnime } from "./providers/jikan";
 
 import { getKitsuAnime } from "./providers/kitsu";
 
+import { getRatings } from "./rating-sources";
+
 import type { AnimeDetails, AnimeProvider, CanonicalAnime } from "./types";
 
 import { createCanonicalAnime } from "./canonical";
@@ -53,7 +55,9 @@ async function findAniListByMalId(malId: number): Promise<AnimeDetails | null> {
       },
     }),
 
-    cache: "no-store",
+    next: {
+      revalidate: 300,
+    },
   });
 
   if (!response.ok) {
@@ -97,18 +101,6 @@ export async function resolveCanonicalAnime(
 
   const related: AnimeDetails[] = [];
 
-  if (provider !== "jikan" && primary.reference.malId !== null) {
-    try {
-      const malAnime = await getJikanAnime(String(primary.reference.malId));
-
-      if (malAnime) {
-        related.push(malAnime);
-      }
-    } catch (error) {
-      console.warn("[Canonical Resolver] MAL enrichment failed:", error);
-    }
-  }
-
   if (provider !== "anilist" && primary.reference.malId !== null) {
     try {
       const aniListAnime = await findAniListByMalId(primary.reference.malId);
@@ -116,10 +108,18 @@ export async function resolveCanonicalAnime(
       if (aniListAnime) {
         related.push(aniListAnime);
       }
-    } catch (error) {
-      console.warn("[Canonical Resolver] AniList enrichment failed:", error);
+    } catch {
+      return createCanonicalAnime(primary, related);
     }
   }
 
-  return createCanonicalAnime(primary, related);
+  const canonical = createCanonicalAnime(primary, related);
+
+  const { ratings, sources } = await getRatings(canonical);
+
+  return {
+    ...canonical,
+    ratings,
+    ratingSources: sources,
+  };
 }

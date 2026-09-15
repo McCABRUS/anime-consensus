@@ -1,7 +1,5 @@
 import type { AnimeDetails, AnimeSearchResult } from "../types";
 
-import { createRating } from "../ratings";
-
 const KITSU_ENDPOINT = "https://kitsu.io/api/edge/anime";
 
 type KitsuAnime = {
@@ -66,7 +64,6 @@ type KitsuMapping = {
 
   attributes?: {
     externalSite?: string | null;
-
     externalId?: string | null;
   };
 };
@@ -134,7 +131,9 @@ async function getKitsuMappings(id: string): Promise<{
         Accept: "application/vnd.api+json",
       },
 
-      cache: "no-store",
+      next: {
+        revalidate: 300,
+      },
     },
   );
 
@@ -215,7 +214,9 @@ export async function getKitsuAnime(id: string): Promise<AnimeDetails | null> {
       Accept: "application/vnd.api+json",
     },
 
-    cache: "no-store",
+    next: {
+      revalidate: 300,
+    },
   });
 
   if (response.status === 404) {
@@ -237,8 +238,6 @@ export async function getKitsuAnime(id: string): Promise<AnimeDetails | null> {
   const attributes = anime.attributes;
 
   const { malId } = await getKitsuMappings(id);
-
-  const rawRating = normalizeKitsuRating(attributes.averageRating);
 
   return {
     reference: {
@@ -295,8 +294,30 @@ export async function getKitsuAnime(id: string): Promise<AnimeDetails | null> {
 
     source: null,
 
-    rating: createRating("kitsu", rawRating, 100, null),
-
     popularity: null,
   };
+}
+
+export async function getKitsuRating(id: string): Promise<number | null> {
+  const response = await fetch(`${KITSU_ENDPOINT}/${encodeURIComponent(id)}`, {
+    headers: {
+      Accept: "application/vnd.api+json",
+    },
+
+    next: {
+      revalidate: 300,
+    },
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const payload = (await response.json()) as KitsuAnimeResponse;
+
+  const rawScore = payload.data?.attributes?.averageRating;
+
+  const score = normalizeKitsuRating(rawScore);
+
+  return score;
 }

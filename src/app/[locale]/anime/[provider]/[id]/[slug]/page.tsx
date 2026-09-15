@@ -4,7 +4,11 @@ import { getTranslations } from "next-intl/server";
 
 import { resolveCanonicalAnime } from "@/lib/anime/resolve";
 import { calculateConsensus } from "@/lib/anime/consensus";
-import type { AnimeProvider, RatingProvider } from "@/lib/anime/types";
+import type {
+  AnimeProvider,
+  RatingSourceStatus,
+  RatingProvider,
+} from "@/lib/anime/types";
 
 type Props = {
   params: Promise<{
@@ -89,18 +93,43 @@ function Description({ text }: { text: string | null }) {
 function RatingRow({
   provider,
   value,
+  voteCount,
+  locale,
+  status,
 }: {
   provider: RatingProvider;
-  value: number;
+  value: number | null;
+  voteCount: number | null;
+  locale: string;
+  status: RatingSourceStatus;
 }) {
+  const formattedVoteCount =
+    voteCount !== null ? new Intl.NumberFormat(locale).format(voteCount) : null;
+
+  const providerName = PROVIDER_NAMES[provider];
+
   return (
     <div className="flex items-center justify-between border-b border-zinc-800 py-4 last:border-0">
-      <span className="text-sm text-zinc-300">{PROVIDER_NAMES[provider]}</span>
+      <span className="text-sm text-zinc-300">{providerName}</span>
 
-      <span className="font-mono text-sm font-medium text-white">
-        {value.toFixed(2)}
-        <span className="ml-1 text-zinc-600">/ 10</span>
-      </span>
+      {status === "available" && value !== null ? (
+        <div className="text-right">
+          <div className="font-mono text-sm font-medium text-white">
+            {value.toFixed(2)}
+            <span className="ml-1 text-zinc-600">/ 10</span>
+          </div>
+
+          {formattedVoteCount && (
+            <div className="mt-1 text-[10px] uppercase tracking-[0.15em] text-zinc-600">
+              {formattedVoteCount} ratings
+            </div>
+          )}
+        </div>
+      ) : (
+        <span className="font-mono text-xs uppercase tracking-[0.15em] text-zinc-600">
+          unavailable
+        </span>
+      )}
     </div>
   );
 }
@@ -249,11 +278,14 @@ export default async function AnimePage({ params }: Props) {
 
             {anime.ratings.length > 0 ? (
               <div className="mt-8 border-t border-zinc-800">
-                {anime.ratings.map((rating) => (
+                {anime.ratingSources.map((source) => (
                   <RatingRow
-                    key={rating.provider}
-                    provider={rating.provider}
-                    value={rating.normalizedValue}
+                    key={source.provider}
+                    provider={source.provider}
+                    value={source.rating?.normalizedValue ?? null}
+                    voteCount={source.rating?.voteCount ?? null}
+                    locale={locale}
+                    status={source.status}
                   />
                 ))}
               </div>

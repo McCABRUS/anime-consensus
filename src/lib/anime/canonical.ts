@@ -1,7 +1,6 @@
 import type {
   AnimeDetails,
   AnimeExternalIds,
-  AnimeRating,
   CanonicalAnime,
   ProviderIdentity,
 } from "./types";
@@ -157,20 +156,6 @@ function createExternalIds(identities: ProviderIdentity[]): AnimeExternalIds {
   return ids;
 }
 
-function createRatings(anime: AnimeDetails[]): AnimeRating[] {
-  const unique = new Map<AnimeRating["provider"], AnimeRating>();
-
-  for (const item of anime) {
-    if (!item.rating) {
-      continue;
-    }
-
-    unique.set(item.rating.provider, item.rating);
-  }
-
-  return Array.from(unique.values());
-}
-
 export function createCanonicalAnime(
   primary: AnimeDetails,
   related: AnimeDetails[] = [],
@@ -257,6 +242,8 @@ export function createCanonicalAnime(
 
     source: findFirst((anime) => anime.source),
 
-    ratings: createRatings(allAnime),
+    ratings: [],
+
+    ratingSources: [],
   };
 }

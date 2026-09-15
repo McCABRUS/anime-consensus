@@ -1,14 +1,18 @@
 import type { AnimeDetails, AnimeSearchResult } from "../types";
 
-import { createRating } from "../ratings";
-
 const JIKAN_ENDPOINT = "https://api.jikan.moe/v4/anime";
+
+const RETRYABLE_STATUS_CODES = [429, 502, 503, 504];
 
 type JikanAnime = {
   mal_id: number;
+
   title?: string | null;
+
   title_english?: string | null;
+
   title_japanese?: string | null;
+
   title_synonyms?: string[];
 
   images?: {
@@ -19,12 +23,21 @@ type JikanAnime = {
   };
 
   year?: number | null;
+
   type?: string | null;
+
   episodes?: number | null;
+
   score?: number | null;
+
+  scored_by?: number | null;
+
   status?: string | null;
+
   season?: string | null;
+
   synopsis?: string | null;
+
   duration?: string | null;
 
   genres?: Array<{
@@ -35,7 +48,12 @@ type JikanAnime = {
     name: string;
   }>;
 
+  producers?: Array<{
+    name: string;
+  }>;
+
   source?: string | null;
+
   members?: number | null;
 };
 
@@ -46,6 +64,40 @@ type JikanResponse = {
 type JikanDetailResponse = {
   data?: JikanAnime;
 };
+
+async function fetchJikan(url: string): Promise<Response | null> {
+  const maxAttempts = 3;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+        },
+
+        cache: "no-store",
+      });
+
+      if (response.ok) {
+        return response;
+      }
+
+      if (!RETRYABLE_STATUS_CODES.includes(response.status)) {
+        return response;
+      }
+
+      if (attempt < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+      }
+    } catch {
+      if (attempt < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+      }
+    }
+  }
+
+  return null;
+}
 
 function parseDuration(duration: string | null | undefined): number | null {
   if (!duration) {
@@ -145,9 +197,12 @@ function mapJikanToDetails(anime: JikanAnime): AnimeDetails {
 
     studios: anime.studios?.map((studio) => studio.name) ?? [],
 
-    source: anime.source ?? null,
+    mainStudio: anime.studios?.[0]?.name ?? null,
 
-    rating: createRating("myanimelist", anime.score, 10, null),
+    productionCompanies:
+      anime.producers?.map((producer) => producer.name) ?? [],
+
+    source: anime.source ?? null,
 
     popularity: anime.members ?? null,
   };
@@ -162,16 +217,14 @@ export async function searchJikan(query: string): Promise<AnimeSearchResult[]> {
 
   url.searchParams.set("sfw", "true");
 
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-    },
+  const response = await fetchJikan(url.toString());
 
-    cache: "no-store",
-  });
+  if (!response) {
+    return [];
+  }
 
   if (!response.ok) {
-    throw new Error(`Jikan request failed: ${response.status}`);
+    return [];
   }
 
   const payload = (await response.json()) as JikanResponse;
@@ -180,20 +233,20 @@ export async function searchJikan(query: string): Promise<AnimeSearchResult[]> {
 }
 
 export async function getJikanAnime(id: string): Promise<AnimeDetails | null> {
-  const response = await fetch(`${JIKAN_ENDPOINT}/${encodeURIComponent(id)}`, {
-    headers: {
-      Accept: "application/json",
-    },
+  const response = await fetchJikan(
+    `${JIKAN_ENDPOINT}/${encodeURIComponent(id)}`,
+  );
 
-    cache: "no-store",
-  });
+  if (!response) {
+    return null;
+  }
 
   if (response.status === 404) {
     return null;
   }
 
   if (!response.ok) {
-    throw new Error(`Jikan detail request failed: ${response.status}`);
+    return null;
   }
 
   const payload = (await response.json()) as JikanDetailResponse;

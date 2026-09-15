@@ -1,7 +1,5 @@
 import type { AnimeDetails, AnimeSearchResult } from "../types";
 
-import { createRating } from "../ratings";
-
 const ANILIST_ENDPOINT = "https://graphql.anilist.co";
 
 const SEARCH_QUERY = `
@@ -74,6 +72,17 @@ const DETAILS_QUERY = `
           }
         }
       }
+    }
+  }
+`;
+
+const RATING_QUERY = `
+  query GetAnimeRating($id: Int!) {
+    Media(
+      id: $id
+      type: ANIME
+    ) {
+      averageScore
     }
   }
 `;
@@ -164,6 +173,18 @@ type AniListSearchResponse = {
 type AniListDetailsResponse = {
   data?: {
     Media?: AniListDetailsAnime;
+  };
+
+  errors?: Array<{
+    message: string;
+  }>;
+};
+
+type AniListRatingResponse = {
+  data?: {
+    Media?: {
+      averageScore: number | null;
+    };
   };
 
   errors?: Array<{
@@ -271,8 +292,6 @@ function mapAniListDetails(
 
     source: anime.source ?? null,
 
-    rating: createRating("anilist", anime.averageScore, 100, null),
-
     popularity: anime.popularity ?? null,
   };
 }
@@ -333,7 +352,9 @@ export async function getAniListAnime(
       },
     }),
 
-    cache: "no-store",
+    next: {
+      revalidate: 300,
+    },
   });
 
   if (!response.ok) {
@@ -355,4 +376,46 @@ export async function getAniListAnime(
   }
 
   return mapAniListDetails(anime);
+}
+
+export async function getAniListRating(id: number): Promise<number | null> {
+  const response = await fetch(ANILIST_ENDPOINT, {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+
+      Accept: "application/json",
+    },
+
+    body: JSON.stringify({
+      query: RATING_QUERY,
+
+      variables: {
+        id,
+      },
+    }),
+
+    next: {
+      revalidate: 300,
+    },
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const payload = (await response.json()) as AniListRatingResponse;
+
+  if (payload.errors?.length) {
+    return null;
+  }
+
+  const score = payload.data?.Media?.averageScore;
+
+  if (typeof score !== "number") {
+    return null;
+  }
+
+  return score;
 }
