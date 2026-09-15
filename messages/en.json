@@ -41,5 +41,39 @@
   },
   "footer": {
     "tagline": "Anime ratings, measured."
+  },
+  "anime": {
+    "brand": "Anime Consensus",
+    "synopsis": "Synopsis",
+    "format": "Format",
+    "status": "Status",
+    "episodes": "Episodes",
+    "season": "Season",
+    "studio": "Studio",
+    "productionCompanies": "Production companies",
+    "unknown": "—",
+    "noDescription": "No description available.",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Movie",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Special",
+      "TV_SHORT": "TV Short",
+      "MUSIC": "Music"
+    },
+    "statusValues": {
+      "FINISHED": "Finished",
+      "RELEASING": "Currently airing",
+      "NOT_YET_RELEASED": "Not yet released",
+      "CANCELLED": "Cancelled",
+      "HIATUS": "On hiatus"
+    },
+    "seasons": {
+      "WINTER": "Winter",
+      "SPRING": "Spring",
+      "SUMMER": "Summer",
+      "FALL": "Fall"
+    }
   }
 }

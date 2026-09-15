@@ -1,29 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
+import { usePathname, useRouter } from "next/navigation";
+
 import Image from "next/image";
 
-type AnimeSearchResult = {
-  id: number;
-  malId: number | null;
-  title: {
-    romaji: string | null;
-    english: string | null;
-    native: string | null;
-  };
-  coverImage: string | null;
-  color: string | null;
-  seasonYear: number | null;
-  format: string | null;
-  episodes: number | null;
-  score: number | null;
-};
+import { createAnimeSlug } from "@/lib/anime/slug";
+
+import type { AnimeSearchResult } from "@/lib/anime/types";
 
 type Props = {
   placeholder: string;
 };
 
 export default function AnimeSearch({ placeholder }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const currentLocale = pathname.split("/")[1] || "en";
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<AnimeSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -86,13 +81,20 @@ export default function AnimeSearch({ placeholder }: Props) {
 
   const selectAnime = (anime: AnimeSearchResult) => {
     const selectedTitle =
-      anime.title.english || anime.title.romaji || anime.title.native || "";
+      anime.title.english ||
+      anime.title.romaji ||
+      anime.title.native ||
+      "anime";
 
     setQuery(selectedTitle);
     setIsOpen(false);
     setHighlightedIndex(-1);
 
-    console.log("Selected anime:", anime);
+    const slug = createAnimeSlug(selectedTitle);
+
+    router.push(
+      `/${currentLocale}/anime/${anime.provider}/${anime.id}/${slug}`,
+    );
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

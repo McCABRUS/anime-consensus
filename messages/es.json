@@ -41,5 +41,39 @@
   },
   "footer": {
     "tagline": "Puntuaciones de anime, medidas."
+  },
+  "anime": {
+    "brand": "Anime Consensus",
+    "synopsis": "Sinopsis",
+    "format": "Formato",
+    "status": "Estado",
+    "episodes": "Episodios",
+    "season": "Temporada",
+    "studio": "Estudio",
+    "productionCompanies": "Productoras",
+    "unknown": "—",
+    "noDescription": "No hay una descripción disponible.",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Película",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Especial",
+      "TV_SHORT": "TV corta",
+      "MUSIC": "Musical"
+    },
+    "statusValues": {
+      "FINISHED": "Finalizado",
+      "RELEASING": "En emisión",
+      "NOT_YET_RELEASED": "Próximamente",
+      "CANCELLED": "Cancelado",
+      "HIATUS": "En pausa"
+    },
+    "seasons": {
+      "WINTER": "Invierno",
+      "SPRING": "Primavera",
+      "SUMMER": "Verano",
+      "FALL": "Otoño"
+    }
   }
 }

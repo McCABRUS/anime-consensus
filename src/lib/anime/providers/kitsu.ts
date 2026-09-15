@@ -1,4 +1,6 @@
-import type { AnimeSearchResult } from "../types";
+import type { AnimeDetails, AnimeSearchResult } from "../types";
+
+import { createRating } from "../ratings";
 
 const KITSU_ENDPOINT = "https://kitsu.io/api/edge/anime";
 
@@ -6,7 +8,7 @@ type KitsuAnime = {
   id: string;
 
   attributes?: {
-    slug: string;
+    canonicalTitle?: string | null;
 
     titles?: {
       en?: string | null;
@@ -14,32 +16,174 @@ type KitsuAnime = {
       ja_jp?: string | null;
     };
 
-    canonicalTitle?: string | null;
+    synopsis?: string | null;
+
+    description?: string | null;
 
     averageRating?: string | null;
 
     startDate?: string | null;
 
+    episodeCount?: number | null;
+
+    episodeLength?: number | null;
+
+    subtype?: string | null;
+
+    status?: string | null;
+
+    season?: string | null;
+
+    seasonYear?: number | null;
+
     posterImage?: {
+      extraLarge?: string | null;
+      large?: string | null;
+      medium?: string | null;
       small?: string | null;
     } | null;
 
-    episodeCount?: number | null;
-  };
-
-  relationships?: {
-    mappings?: {
-      data?: Array<{
-        id: string;
-        type: string;
-      }>;
-    };
+    coverImage?: {
+      extraLarge?: string | null;
+      large?: string | null;
+      small?: string | null;
+    } | null;
   };
 };
 
-type KitsuResponse = {
+type KitsuSearchResponse = {
   data?: KitsuAnime[];
 };
+
+type KitsuAnimeResponse = {
+  data?: KitsuAnime;
+};
+
+type KitsuMapping = {
+  id: string;
+
+  type: string;
+
+  attributes?: {
+    externalSite?: string | null;
+
+    externalId?: string | null;
+  };
+};
+
+type KitsuMappingsResponse = {
+  data?: KitsuMapping[];
+};
+
+function normalizeKitsuRating(value: string | null | undefined): number | null {
+  if (value == null) {
+    return null;
+  }
+
+  const rating = Number(value);
+
+  return Number.isFinite(rating) ? rating : null;
+}
+
+function mapKitsuAnimeToSearchResult(anime: KitsuAnime): AnimeSearchResult {
+  const attributes = anime.attributes;
+
+  const rawRating = normalizeKitsuRating(attributes?.averageRating);
+
+  return {
+    id: anime.id,
+
+    malId: null,
+
+    provider: "kitsu",
+
+    title: {
+      romaji: attributes?.titles?.en_jp ?? attributes?.canonicalTitle ?? null,
+
+      english: attributes?.titles?.en ?? null,
+
+      native: attributes?.titles?.ja_jp ?? null,
+
+      synonyms: [],
+    },
+
+    coverImage: attributes?.posterImage?.small ?? null,
+
+    color: null,
+
+    seasonYear:
+      attributes?.seasonYear ??
+      (attributes?.startDate ? Number(attributes.startDate.slice(0, 4)) : null),
+
+    format: attributes?.subtype ?? null,
+
+    episodes: attributes?.episodeCount ?? null,
+
+    score: rawRating !== null ? rawRating / 10 : null,
+  };
+}
+
+async function getKitsuMappings(id: string): Promise<{
+  malId: number | null;
+  aniListId: number | null;
+}> {
+  const response = await fetch(
+    `${KITSU_ENDPOINT}/${encodeURIComponent(id)}/mappings`,
+    {
+      headers: {
+        Accept: "application/vnd.api+json",
+      },
+
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) {
+    return {
+      malId: null,
+      aniListId: null,
+    };
+  }
+
+  const payload = (await response.json()) as KitsuMappingsResponse;
+
+  const mappings = payload.data ?? [];
+
+  let malId: number | null = null;
+
+  let aniListId: number | null = null;
+
+  for (const mapping of mappings) {
+    const externalSite = mapping.attributes?.externalSite;
+
+    const externalId = mapping.attributes?.externalId;
+
+    if (!externalId) {
+      continue;
+    }
+
+    if (externalSite === "myanimelist/anime" && malId === null) {
+      const parsed = Number(externalId);
+
+      if (Number.isFinite(parsed)) {
+        malId = parsed;
+      }
+    }
+
+    if (externalSite === "anilist/anime" && aniListId === null) {
+      const parsed = Number(externalId);
+
+      if (Number.isFinite(parsed)) {
+        aniListId = parsed;
+      }
+    }
+  }
+
+  return {
+    malId,
+    aniListId,
+  };
+}
 
 export async function searchKitsu(query: string): Promise<AnimeSearchResult[]> {
   const url = new URL(KITSU_ENDPOINT);
@@ -60,50 +204,99 @@ export async function searchKitsu(query: string): Promise<AnimeSearchResult[]> {
     throw new Error(`Kitsu request failed: ${response.status}`);
   }
 
-  const payload = (await response.json()) as KitsuResponse;
+  const payload = (await response.json()) as KitsuSearchResponse;
 
-  return (
-    payload.data?.map((anime) => {
-      const attributes = anime.attributes;
+  return payload.data?.map(mapKitsuAnimeToSearchResult) ?? [];
+}
 
-      const rawRating = attributes?.averageRating ?? null;
+export async function getKitsuAnime(id: string): Promise<AnimeDetails | null> {
+  const response = await fetch(`${KITSU_ENDPOINT}/${encodeURIComponent(id)}`, {
+    headers: {
+      Accept: "application/vnd.api+json",
+    },
 
-      const rating = rawRating !== null ? Number(rawRating) : null;
+    cache: "no-store",
+  });
 
-      const startDate = attributes?.startDate ?? null;
+  if (response.status === 404) {
+    return null;
+  }
 
-      const year = startDate ? Number(startDate.slice(0, 4)) : null;
+  if (!response.ok) {
+    throw new Error(`Kitsu detail request failed: ${response.status}`);
+  }
 
-      return {
-        id: anime.id,
+  const payload = (await response.json()) as KitsuAnimeResponse;
 
-        malId: null,
+  const anime = payload.data;
 
-        provider: "kitsu",
+  if (!anime?.attributes) {
+    return null;
+  }
 
-        title: {
-          romaji:
-            attributes?.titles?.en_jp ?? attributes?.canonicalTitle ?? null,
+  const attributes = anime.attributes;
 
-          english: attributes?.titles?.en ?? null,
+  const { malId } = await getKitsuMappings(id);
 
-          native: attributes?.titles?.ja_jp ?? null,
+  const rawRating = normalizeKitsuRating(attributes.averageRating);
 
-          synonyms: [],
-        },
+  return {
+    reference: {
+      provider: "kitsu",
 
-        coverImage: attributes?.posterImage?.small ?? null,
+      id: anime.id,
 
-        color: null,
+      malId,
+    },
 
-        seasonYear: Number.isFinite(year) ? year : null,
+    title: {
+      romaji: attributes.titles?.en_jp ?? attributes.canonicalTitle ?? null,
 
-        format: null,
+      english: attributes.titles?.en ?? null,
 
-        episodes: attributes?.episodeCount ?? null,
+      native: attributes.titles?.ja_jp ?? null,
 
-        score: Number.isFinite(rating) ? rating! / 10 : null,
-      };
-    }) ?? []
-  );
+      synonyms: [],
+    },
+
+    description: attributes.synopsis ?? attributes.description ?? null,
+
+    coverImage:
+      attributes.posterImage?.extraLarge ??
+      attributes.posterImage?.large ??
+      attributes.posterImage?.medium ??
+      null,
+
+    bannerImage:
+      attributes.coverImage?.extraLarge ??
+      attributes.coverImage?.large ??
+      attributes.coverImage?.small ??
+      null,
+
+    color: null,
+
+    format: attributes.subtype ?? null,
+
+    status: attributes.status ?? null,
+
+    season: attributes.season ?? null,
+
+    seasonYear:
+      attributes.seasonYear ??
+      (attributes.startDate ? Number(attributes.startDate.slice(0, 4)) : null),
+
+    episodes: attributes.episodeCount ?? null,
+
+    duration: attributes.episodeLength ?? null,
+
+    genres: [],
+
+    studios: [],
+
+    source: null,
+
+    rating: createRating("kitsu", rawRating, 100, null),
+
+    popularity: null,
+  };
 }
