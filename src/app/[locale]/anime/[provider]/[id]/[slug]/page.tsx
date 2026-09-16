@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import InternalNav from "@/components/layout/InternalNav";
 
 import { calculateConsensus } from "@/lib/anime/consensus";
 
@@ -194,6 +195,7 @@ export default async function AnimePage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
+      <InternalNav locale={locale} />
       <section className="relative overflow-hidden">
         {anime.bannerImage && (
           <>
