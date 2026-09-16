@@ -5,6 +5,8 @@ import type {
   RatingProvider,
 } from "../types";
 
+import { annRatingSource } from "./ann";
+
 import type { RatingSource } from "./types";
 
 import { aniListRatingSource } from "./anilist";
@@ -17,6 +19,7 @@ export const ratingSources: RatingSource[] = [
   malRatingSource,
   aniListRatingSource,
   kitsuRatingSource,
+  annRatingSource,
 ];
 
 export async function getRatings(anime: CanonicalAnime): Promise<{

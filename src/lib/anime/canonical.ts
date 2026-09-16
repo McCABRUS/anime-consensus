@@ -110,7 +110,7 @@ function mergeIdentities(
   return [...identities, identity];
 }
 
-function createExternalIds(identities: ProviderIdentity[]): AnimeExternalIds {
+function createExternalIds(anime: AnimeDetails[]): AnimeExternalIds {
   const ids: AnimeExternalIds = {
     mal: null,
     anilist: null,
@@ -119,15 +119,15 @@ function createExternalIds(identities: ProviderIdentity[]): AnimeExternalIds {
     ann: null,
   };
 
-  for (const identity of identities) {
+  for (const item of anime) {
+    const identity = item.reference;
+
     if (identity.provider === "jikan") {
       const malId = Number(identity.id);
 
       if (Number.isFinite(malId)) {
         ids.mal = malId;
       }
-
-      continue;
     }
 
     if (identity.provider === "anilist") {
@@ -140,8 +140,6 @@ function createExternalIds(identities: ProviderIdentity[]): AnimeExternalIds {
       if (identity.malId !== null) {
         ids.mal = identity.malId;
       }
-
-      continue;
     }
 
     if (identity.provider === "kitsu") {
@@ -150,6 +148,18 @@ function createExternalIds(identities: ProviderIdentity[]): AnimeExternalIds {
       if (identity.malId !== null) {
         ids.mal = identity.malId;
       }
+    }
+
+    if (item.externalIds?.kitsu) {
+      ids.kitsu = item.externalIds.kitsu;
+    }
+
+    if (item.externalIds?.ann) {
+      ids.ann = item.externalIds.ann;
+    }
+
+    if (item.externalIds?.imdb) {
+      ids.imdb = item.externalIds.imdb;
     }
   }
 
@@ -167,7 +177,7 @@ export function createCanonicalAnime(
     [] as ProviderIdentity[],
   );
 
-  const ids = createExternalIds(identities);
+  const ids = createExternalIds(allAnime);
 
   const findFirst = <T>(
     selector: (anime: AnimeDetails) => T | null | undefined,

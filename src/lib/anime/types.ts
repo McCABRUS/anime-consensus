@@ -62,6 +62,8 @@ export type AnimeRatingSource = {
 export type AnimeDetails = {
   reference: ProviderIdentity;
 
+  externalIds?: Partial<AnimeExternalIds>;
+
   title: LocalizedTitle;
 
   description: string | null;

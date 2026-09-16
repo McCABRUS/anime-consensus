@@ -1,8 +1,8 @@
 import { getAniListAnime } from "./providers/anilist";
 
-import { getJikanAnime } from "./providers/jikan";
+import { getKitsuAnime, getKitsuIdByMalId } from "./providers/kitsu";
 
-import { getKitsuAnime } from "./providers/kitsu";
+import { getJikanAnime } from "./providers/jikan";
 
 import { getRatings } from "./rating-sources";
 
@@ -89,6 +89,36 @@ async function findAniListByMalId(malId: number): Promise<AnimeDetails | null> {
   return getAniListAnime(aniListId);
 }
 
+async function enrichKitsuIdentity(anime: AnimeDetails): Promise<AnimeDetails> {
+  if (anime.reference.provider === "kitsu") {
+    return anime;
+  }
+
+  if (anime.reference.malId === null) {
+    return anime;
+  }
+
+  if (anime.externalIds?.kitsu) {
+    return anime;
+  }
+
+  const kitsuId = await getKitsuIdByMalId(anime.reference.malId);
+
+  if (!kitsuId) {
+    return anime;
+  }
+
+  return {
+    ...anime,
+
+    externalIds: {
+      ...anime.externalIds,
+
+      kitsu: kitsuId,
+    },
+  };
+}
+
 export async function resolveCanonicalAnime(
   provider: AnimeProvider,
   id: string,
@@ -99,21 +129,31 @@ export async function resolveCanonicalAnime(
     return null;
   }
 
+  let enrichedPrimary = primary;
+
+  try {
+    enrichedPrimary = await enrichKitsuIdentity(primary);
+  } catch {
+    enrichedPrimary = primary;
+  }
+
   const related: AnimeDetails[] = [];
 
-  if (provider !== "anilist" && primary.reference.malId !== null) {
+  if (provider !== "anilist" && enrichedPrimary.reference.malId !== null) {
     try {
-      const aniListAnime = await findAniListByMalId(primary.reference.malId);
+      const aniListAnime = await findAniListByMalId(
+        enrichedPrimary.reference.malId,
+      );
 
       if (aniListAnime) {
         related.push(aniListAnime);
       }
     } catch {
-      return createCanonicalAnime(primary, related);
+      return createCanonicalAnime(enrichedPrimary, related);
     }
   }
 
-  const canonical = createCanonicalAnime(primary, related);
+  const canonical = createCanonicalAnime(enrichedPrimary, related);
 
   const { ratings, sources } = await getRatings(canonical);
 

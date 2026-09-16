@@ -2,6 +2,8 @@ import type { AnimeDetails, AnimeSearchResult } from "../types";
 
 const KITSU_ENDPOINT = "https://kitsu.io/api/edge/anime";
 
+const KITSU_MAPPINGS_ENDPOINT = "https://kitsu.io/api/edge/mappings";
+
 type KitsuAnime = {
   id: string;
 
@@ -59,17 +61,21 @@ type KitsuAnimeResponse = {
 
 type KitsuMapping = {
   id: string;
-
   type: string;
 
   attributes?: {
     externalSite?: string | null;
     externalId?: string | null;
   };
-};
 
-type KitsuMappingsResponse = {
-  data?: KitsuMapping[];
+  relationships?: {
+    item?: {
+      data?: {
+        type?: string;
+        id?: string;
+      } | null;
+    };
+  };
 };
 
 function normalizeKitsuRating(value: string | null | undefined): number | null {
@@ -144,7 +150,9 @@ async function getKitsuMappings(id: string): Promise<{
     };
   }
 
-  const payload = (await response.json()) as KitsuMappingsResponse;
+  const payload = (await response.json()) as {
+    data?: KitsuMapping[];
+  };
 
   const mappings = payload.data ?? [];
 
@@ -182,6 +190,45 @@ async function getKitsuMappings(id: string): Promise<{
     malId,
     aniListId,
   };
+}
+
+export async function getKitsuIdByMalId(malId: number): Promise<string | null> {
+  const url = new URL(KITSU_MAPPINGS_ENDPOINT);
+
+  url.searchParams.set("filter[externalSite]", "myanimelist/anime");
+
+  url.searchParams.set("filter[externalId]", String(malId));
+
+  url.searchParams.set("include", "item");
+
+  url.searchParams.set("page[limit]", "1");
+
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/vnd.api+json",
+    },
+
+    next: {
+      revalidate: 300,
+    },
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const payload = (await response.json()) as {
+    data?: KitsuMapping[];
+    included?: KitsuAnime[];
+  };
+
+  const anime = payload.included?.[0];
+
+  if (anime?.id) {
+    return anime.id;
+  }
+
+  return null;
 }
 
 export async function searchKitsu(query: string): Promise<AnimeSearchResult[]> {
@@ -317,7 +364,5 @@ export async function getKitsuRating(id: string): Promise<number | null> {
 
   const rawScore = payload.data?.attributes?.averageRating;
 
-  const score = normalizeKitsuRating(rawScore);
-
-  return score;
+  return normalizeKitsuRating(rawScore);
 }

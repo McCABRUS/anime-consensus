@@ -62,6 +62,10 @@ const DETAILS_QUERY = `
       source
       averageScore
       popularity
+      externalLinks {
+        site
+        url
+      }
       studios {
         edges {
           isMain
@@ -129,6 +133,11 @@ type AniListDetailsAnime = {
     english: string | null;
     native: string | null;
   };
+
+  externalLinks?: Array<{
+    site: string;
+    url: string | null;
+  }>;
 
   synonyms?: string[];
 
@@ -241,11 +250,23 @@ function mapAniListDetails(
     .filter((edge) => !edge.node.isAnimationStudio)
     .map((edge) => edge.node.name);
 
+  const annLink = anime.externalLinks?.find((link) =>
+    link.url?.includes("animenewsnetwork.com/encyclopedia/anime.php?id="),
+  );
+
+  const annId = annLink?.url
+    ? new URL(annLink.url).searchParams.get("id")
+    : null;
+
   return {
     reference: {
       provider: "anilist",
       id: String(anime.id),
       malId: anime.idMal ?? fallbackMalId ?? null,
+    },
+
+    externalIds: {
+      ann: annId,
     },
 
     title: {
