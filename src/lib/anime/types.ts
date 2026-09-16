@@ -51,6 +51,7 @@ export type AnimeRating = {
   normalizedValue: number;
   voteCount: number | null;
   fetchedAt: string;
+  sourceUrl?: string;
 };
 
 export type AnimeRatingSource = {

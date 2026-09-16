@@ -6,6 +6,8 @@ import { getJikanAnime } from "./providers/jikan";
 
 import { getRatings } from "./rating-sources";
 
+import { getAnnIdByMalId } from "./identity/ann";
+
 import type { AnimeDetails, AnimeProvider, CanonicalAnime } from "./types";
 
 import { createCanonicalAnime } from "./canonical";
@@ -119,6 +121,32 @@ async function enrichKitsuIdentity(anime: AnimeDetails): Promise<AnimeDetails> {
   };
 }
 
+async function enrichAnnIdentity(anime: AnimeDetails): Promise<AnimeDetails> {
+  if (anime.externalIds?.ann) {
+    return anime;
+  }
+
+  if (anime.reference.malId === null) {
+    return anime;
+  }
+
+  const annId = await getAnnIdByMalId(anime.reference.malId);
+
+  if (!annId) {
+    return anime;
+  }
+
+  return {
+    ...anime,
+
+    externalIds: {
+      ...anime.externalIds,
+
+      ann: annId,
+    },
+  };
+}
+
 export async function resolveCanonicalAnime(
   provider: AnimeProvider,
   id: string,
@@ -132,9 +160,15 @@ export async function resolveCanonicalAnime(
   let enrichedPrimary = primary;
 
   try {
-    enrichedPrimary = await enrichKitsuIdentity(primary);
+    enrichedPrimary = await enrichKitsuIdentity(enrichedPrimary);
   } catch {
-    enrichedPrimary = primary;
+    enrichedPrimary = enrichedPrimary;
+  }
+
+  try {
+    enrichedPrimary = await enrichAnnIdentity(enrichedPrimary);
+  } catch {
+    enrichedPrimary = enrichedPrimary;
   }
 
   const related: AnimeDetails[] = [];

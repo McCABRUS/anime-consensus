@@ -27,6 +27,9 @@ export const annRatingSource: RatingSource = {
       {
         headers: {
           Accept: "application/xml,text/xml",
+
+          "User-Agent":
+            "AnimeConsensus/0.1 (+https://anime-consensus.vercel.app)",
         },
 
         next: {
@@ -59,13 +62,22 @@ export const annRatingSource: RatingSource = {
       return null;
     }
 
-    const votes = voteCount !== null ? Number(voteCount) : null;
+    const parsedVotes = voteCount !== null ? Number(voteCount) : null;
 
-    return createRating(
+    const rating = createRating(
       "animenewsnetwork",
       score,
       10,
-      Number.isFinite(votes ?? NaN) ? votes : null,
+      parsedVotes !== null && Number.isFinite(parsedVotes) ? parsedVotes : null,
     );
+
+    if (!rating) {
+      return null;
+    }
+
+    return {
+      ...rating,
+      sourceUrl: `https://www.animenewsnetwork.com/encyclopedia/anime.php?id=${annId}`,
+    };
   },
 };

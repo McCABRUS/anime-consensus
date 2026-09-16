@@ -2,12 +2,13 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
-import { resolveCanonicalAnime } from "@/lib/anime/resolve";
 import { calculateConsensus } from "@/lib/anime/consensus";
+
+import { resolveCanonicalAnime } from "@/lib/anime/resolve";
 import type {
   AnimeProvider,
-  RatingSourceStatus,
   RatingProvider,
+  RatingSourceStatus,
 } from "@/lib/anime/types";
 
 type Props = {
@@ -96,21 +97,21 @@ function RatingRow({
   voteCount,
   locale,
   status,
+  sourceUrl,
 }: {
   provider: RatingProvider;
   value: number | null;
   voteCount: number | null;
   locale: string;
   status: RatingSourceStatus;
+  sourceUrl?: string;
 }) {
   const formattedVoteCount =
     voteCount !== null ? new Intl.NumberFormat(locale).format(voteCount) : null;
 
-  const providerName = PROVIDER_NAMES[provider];
-
   return (
     <div className="flex items-center justify-between border-b border-zinc-800 py-4 last:border-0">
-      <span className="text-sm text-zinc-300">{providerName}</span>
+      <span className="text-sm text-zinc-300">{PROVIDER_NAMES[provider]}</span>
 
       {status === "available" && value !== null ? (
         <div className="text-right">
@@ -123,6 +124,17 @@ function RatingRow({
             <div className="mt-1 text-[10px] uppercase tracking-[0.15em] text-zinc-600">
               {formattedVoteCount} ratings
             </div>
+          )}
+
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-1 block text-[10px] uppercase tracking-[0.15em] text-zinc-600 transition-colors hover:text-zinc-300"
+            >
+              Anime News Network →
+            </a>
           )}
         </div>
       ) : (
@@ -276,7 +288,7 @@ export default async function AnimePage({ params }: Props) {
               </div>
             </div>
 
-            {anime.ratings.length > 0 ? (
+            {anime.ratingSources.length > 0 ? (
               <div className="mt-8 border-t border-zinc-800">
                 {anime.ratingSources.map((source) => (
                   <RatingRow
@@ -286,6 +298,7 @@ export default async function AnimePage({ params }: Props) {
                     voteCount={source.rating?.voteCount ?? null}
                     locale={locale}
                     status={source.status}
+                    sourceUrl={source.rating?.sourceUrl}
                   />
                 ))}
               </div>
@@ -313,7 +326,7 @@ export default async function AnimePage({ params }: Props) {
             <Metric label={t("studio")} value={mainStudio} />
 
             {anime.productionCompanies.length > 0 && (
-              <div className="border-b border-zinc-800 pb-4 last:border-0">
+              <div className="border-b border-zinc-800 pb-4">
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
                   {t("productionCompanies")}
                 </p>
