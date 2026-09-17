@@ -22,6 +22,7 @@ export const DEFAULT_SOURCE_WEIGHTS: Record<RatingProvider, number> = {
   imdb: 1,
   animenewsnetwork: 1,
   crunchyroll: 1,
+  shikimori: 1,
 };
 
 function isValidWeight(weight: number): boolean {

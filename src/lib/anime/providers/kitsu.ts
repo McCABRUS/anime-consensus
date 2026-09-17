@@ -22,6 +22,8 @@ type KitsuAnime = {
 
     averageRating?: string | null;
 
+    ratingFrequencies?: Record<string, string | number> | null;
+
     startDate?: string | null;
 
     episodeCount?: number | null;
@@ -345,7 +347,10 @@ export async function getKitsuAnime(id: string): Promise<AnimeDetails | null> {
   };
 }
 
-export async function getKitsuRating(id: string): Promise<number | null> {
+export async function getKitsuRating(id: string): Promise<{
+  score: number;
+  voteCount: number;
+} | null> {
   const response = await fetch(`${KITSU_ENDPOINT}/${encodeURIComponent(id)}`, {
     headers: {
       Accept: "application/vnd.api+json",
@@ -362,7 +367,32 @@ export async function getKitsuRating(id: string): Promise<number | null> {
 
   const payload = (await response.json()) as KitsuAnimeResponse;
 
-  const rawScore = payload.data?.attributes?.averageRating;
+  const attributes = payload.data?.attributes;
 
-  return normalizeKitsuRating(rawScore);
+  const rawScore = attributes?.averageRating;
+
+  const score = normalizeKitsuRating(rawScore);
+
+  if (score === null) {
+    return null;
+  }
+
+  const frequencies = attributes?.ratingFrequencies ?? {};
+
+  let voteCount = 0;
+
+  for (const value of Object.values(frequencies)) {
+    const count = Number(value);
+
+    if (!Number.isFinite(count) || count < 0) {
+      continue;
+    }
+
+    voteCount += count;
+  }
+
+  return {
+    score,
+    voteCount,
+  };
 }

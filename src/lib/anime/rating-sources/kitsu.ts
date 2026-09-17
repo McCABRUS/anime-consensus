@@ -16,12 +16,23 @@ export const kitsuRatingSource: RatingSource = {
       return null;
     }
 
-    const score = await getKitsuRating(id);
+    const result = await getKitsuRating(id);
 
-    if (score === null) {
+    if (result === null) {
       return null;
     }
 
-    return createRating("kitsu", score, 100, null);
+    const rating = createRating(
+      "kitsu",
+      result.score,
+      100,
+      result.voteCount > 0 ? result.voteCount : null,
+    );
+
+    if (!rating) {
+      return null;
+    }
+
+    return rating;
   },
 };

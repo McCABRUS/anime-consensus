@@ -53,6 +53,7 @@ const PROVIDER_NAMES: Record<RatingProvider, string> = {
   anilist: "AniList",
   kitsu: "Kitsu",
   imdb: "IMDb",
+  shikimori: "Shikimori Community Average",
   animenewsnetwork: "Anime News Network",
   crunchyroll: "Crunchyroll",
 };

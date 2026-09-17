@@ -16,12 +16,23 @@ export const aniListRatingSource: RatingSource = {
       return null;
     }
 
-    const score = await getAniListRating(id);
+    const result = await getAniListRating(id);
 
-    if (score === null) {
+    if (result === null) {
       return null;
     }
 
-    return createRating("anilist", score, 100, null);
+    const rating = createRating(
+      "anilist",
+      result.score,
+      100,
+      result.voteCount > 0 ? result.voteCount : null,
+    );
+
+    if (!rating) {
+      return null;
+    }
+
+    return rating;
   },
 };

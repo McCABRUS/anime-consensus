@@ -4,8 +4,9 @@ export type RatingProvider =
   | "myanimelist"
   | "anilist"
   | "kitsu"
-  | "imdb"
   | "animenewsnetwork"
+  | "shikimori"
+  | "imdb"
   | "crunchyroll";
 
 export type RatingSourceStatus = "available" | "unavailable" | "error";

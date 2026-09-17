@@ -87,6 +87,12 @@ const RATING_QUERY = `
       type: ANIME
     ) {
       averageScore
+      stats {
+        scoreDistribution {
+          score
+          amount
+        }
+      }
     }
   }
 `;
@@ -134,11 +140,6 @@ type AniListDetailsAnime = {
     native: string | null;
   };
 
-  externalLinks?: Array<{
-    site: string;
-    url: string | null;
-  }>;
-
   synonyms?: string[];
 
   description: string | null;
@@ -161,6 +162,11 @@ type AniListDetailsAnime = {
   source: string | null;
   averageScore: number | null;
   popularity: number | null;
+
+  externalLinks?: Array<{
+    site: string;
+    url: string | null;
+  }>;
 
   studios?: {
     edges?: AniListStudioEdge[];
@@ -189,10 +195,19 @@ type AniListDetailsResponse = {
   }>;
 };
 
+type AniListScoreDistribution = {
+  score: number;
+  amount: number;
+};
+
 type AniListRatingResponse = {
   data?: {
     Media?: {
       averageScore: number | null;
+
+      stats?: {
+        scoreDistribution?: AniListScoreDistribution[];
+      } | null;
     };
   };
 
@@ -399,7 +414,10 @@ export async function getAniListAnime(
   return mapAniListDetails(anime);
 }
 
-export async function getAniListRating(id: number): Promise<number | null> {
+export async function getAniListRating(id: number): Promise<{
+  score: number;
+  voteCount: number;
+} | null> {
   const response = await fetch(ANILIST_ENDPOINT, {
     method: "POST",
 
@@ -432,11 +450,26 @@ export async function getAniListRating(id: number): Promise<number | null> {
     return null;
   }
 
-  const score = payload.data?.Media?.averageScore;
+  const media = payload.data?.Media;
+
+  const score = media?.averageScore;
 
   if (typeof score !== "number") {
     return null;
   }
 
-  return score;
+  const distribution = media?.stats?.scoreDistribution ?? [];
+
+  const voteCount = distribution.reduce((total, item) => {
+    if (!Number.isFinite(item.amount) || item.amount < 0) {
+      return total;
+    }
+
+    return total + item.amount;
+  }, 0);
+
+  return {
+    score,
+    voteCount,
+  };
 }
