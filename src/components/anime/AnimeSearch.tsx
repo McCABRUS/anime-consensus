@@ -12,9 +12,10 @@ import type { AnimeSearchResult } from "@/lib/anime/types";
 
 type Props = {
   placeholder: string;
+  autoFocus?: boolean;
 };
 
-export default function AnimeSearch({ placeholder }: Props) {
+export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,6 +28,14 @@ export default function AnimeSearch({ placeholder }: Props) {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const requestIdRef = useRef(0);
+
+  useEffect(() => {
+    if (!autoFocus) {
+      return;
+    }
+
+    inputRef.current?.focus();
+  }, [autoFocus]);
 
   useEffect(() => {
     const normalizedQuery = query.trim();

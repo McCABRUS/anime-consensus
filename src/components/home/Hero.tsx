@@ -1,15 +1,17 @@
 import { useTranslations } from "next-intl";
+
 import AnimeSearch from "@/components/anime/AnimeSearch";
 import HeroAnimation from "@/components/motion/HeroAnimation";
+
 import HeroVisual from "./HeroVisual";
 
 export default function Hero() {
   const t = useTranslations("hero");
 
   return (
-    <section className="relative flex min-h-[calc(100svh-80px)] items-center overflow-hidden px-6 py-20 sm:px-10 lg:px-16">
+    <section className="relative z-10 isolate flex min-h-[calc(100svh-80px)] px-6 py-20 sm:px-10 lg:px-16">
       <HeroAnimation>
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <div className="hero-orb hero-orb-1" />
           <div className="hero-orb hero-orb-2" />
           <div className="hero-grid" />
@@ -38,7 +40,7 @@ export default function Hero() {
               {t("description")}
             </p>
 
-            <div className="hero-search mt-10 max-w-2xl">
+            <div className="hero-search relative z-50 mt-10 max-w-2xl">
               <AnimeSearch placeholder={t("searchPlaceholder")} />
             </div>
           </div>
