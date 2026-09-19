@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import gsap from "gsap";
 
 import AnimeSearch from "@/components/anime/AnimeSearch";
+
+const emptySubscribe = () => () => {};
+const getServerSnapshot = () => false;
+const getClientSnapshot = () => true;
+
+const ROUTE_TRANSITION_DURATION = 0.72;
 
 type Props = {
   dark?: boolean;
@@ -13,13 +20,26 @@ type Props = {
 
 export default function GlobalSearch({ dark = false }: Props) {
   const [open, setOpen] = useState(false);
-  const [isNavigating, startNavigation] = useTransition();
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+  const [pendingPath, setPendingPath] = useState<string | null>(null);
+
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const loadingOverlayRef = useRef<HTMLDivElement>(null);
+  const loadingContentRef = useRef<HTMLDivElement>(null);
+  const navigationStartedRef = useRef(false);
 
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations("common");
+
+  const isNavigating = pendingPath !== null && pathname !== pendingPath;
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -41,7 +61,7 @@ export default function GlobalSearch({ dark = false }: Props) {
         setOpen(true);
       }
 
-      if (event.key === "Escape" && open) {
+      if (event.key === "Escape" && open && !isNavigating) {
         event.preventDefault();
         setOpen(false);
       }
@@ -52,10 +72,10 @@ export default function GlobalSearch({ dark = false }: Props) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [open]);
+  }, [isNavigating, open]);
 
   useEffect(() => {
-    if (!open) {
+    if (!open || isNavigating) {
       return;
     }
 
@@ -76,7 +96,7 @@ export default function GlobalSearch({ dark = false }: Props) {
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, [open]);
+  }, [isNavigating, open]);
 
   useEffect(() => {
     if (!open) {
@@ -84,29 +104,115 @@ export default function GlobalSearch({ dark = false }: Props) {
     }
   }, [open]);
 
-  const handleNavigate = (href: string) => {
-    setOpen(false);
+  useEffect(() => {
+    if (!isNavigating || !pendingHref) {
+      navigationStartedRef.current = false;
+      return;
+    }
 
-    startNavigation(() => {
-      router.push(href);
+    const overlay = loadingOverlayRef.current;
+    const content = loadingContentRef.current;
+
+    if (!overlay || !content || navigationStartedRef.current) {
+      return;
+    }
+
+    navigationStartedRef.current = true;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    gsap.set(overlay, {
+      opacity: 0,
+      pointerEvents: "auto",
     });
+
+    gsap.set(content, {
+      opacity: 0,
+      y: 8,
+      scale: 0.96,
+    });
+
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+      onComplete: () => {
+        router.push(pendingHref);
+      },
+    });
+
+    timeline
+      .to(overlay, {
+        opacity: 1,
+        duration: ROUTE_TRANSITION_DURATION,
+        ease: "power2.inOut",
+      })
+      .to(
+        content,
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.35,
+          ease: "power3.out",
+        },
+        0.18,
+      );
+
+    return () => {
+      timeline.kill();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isNavigating, pendingHref, router]);
+
+  useEffect(() => {
+    if (!isNavigating) {
+      navigationStartedRef.current = false;
+    }
+  }, [isNavigating]);
+
+  const handleNavigate = (href: string) => {
+    if (isNavigating) {
+      return;
+    }
+
+    const targetPath = new URL(href, window.location.origin).pathname;
+
+    if (targetPath === pathname) {
+      setOpen(false);
+      return;
+    }
+
+    setOpen(false);
+    setPendingHref(href);
+    setPendingPath(targetPath);
   };
 
   const loadingOverlay =
-    isNavigating && typeof document !== "undefined"
+    isClient && pendingPath
       ? createPortal(
           <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-zinc-950/30 backdrop-blur-sm"
+            ref={loadingOverlayRef}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-zinc-950/80"
+            style={{
+              opacity: 0,
+              pointerEvents: "none",
+            }}
+            aria-hidden={!isNavigating}
             aria-live="polite"
-            aria-busy="true"
+            aria-busy={isNavigating}
           >
-            <div className="flex items-center gap-3 rounded-full border border-zinc-200 bg-white/95 px-5 py-3 shadow-2xl">
+            <div
+              ref={loadingContentRef}
+              className="flex items-center gap-3 rounded-full border border-zinc-200/20 bg-white/10 px-5 py-3 shadow-2xl backdrop-blur-xl"
+            >
               <span
-                className="size-4 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-950"
+                className="size-4 animate-spin rounded-full border-2 border-zinc-500 border-t-white"
                 aria-hidden="true"
               />
 
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-600">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">
                 Loading
               </span>
             </div>
@@ -137,7 +243,7 @@ export default function GlobalSearch({ dark = false }: Props) {
 
       {open && !isNavigating && (
         <div
-          className="fixed inset-0 z-[100] pointer-events-none"
+          className="pointer-events-none fixed inset-0 z-[100]"
           aria-hidden="false"
         >
           <div

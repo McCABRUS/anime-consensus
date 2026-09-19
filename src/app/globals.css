@@ -22,12 +22,13 @@ body {
 
 .hero-grid {
   position: absolute;
-  inset: 0;
+  inset: -6%;
   background-image:
     linear-gradient(rgba(24, 24, 27, 0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(24, 24, 27, 0.055) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, black, transparent 80%);
+  mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 92%);
+  transform-origin: center;
 }
 
 .hero-orb {
@@ -54,75 +55,66 @@ body {
 }
 
 .hero-title {
-  perspective: 1000px;
-}
-
-.hero-eyebrow,
-.hero-title-line,
-.hero-description {
-  animation: hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.hero-eyebrow {
-  animation-delay: 0.1s;
-}
-
-.hero-title-line {
-  animation-delay: 0.2s;
+  perspective: 1200px;
 }
 
 .hero-title-accent {
-  animation-name: hero-fade-up, shimmer;
-  animation-duration: 0.8s, 8s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1), linear;
-  animation-delay: 0.35s, 0s;
-  animation-iteration-count: 1, infinite;
-  animation-fill-mode: both, none;
-  background: linear-gradient(90deg, #18181b 0%, #71717a 50%, #18181b 100%);
-  background-size: 200% auto;
+  background: linear-gradient(
+    90deg,
+    #18181b 0%,
+    #71717a 38%,
+    #a1a1aa 50%,
+    #18181b 72%,
+    #18181b 100%
+  );
+  background-size: 220% auto;
   color: transparent;
   background-clip: text;
-}
-
-.hero-description {
-  animation-delay: 0.5s;
-}
-
-@keyframes hero-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  animation: shimmer 7s linear infinite;
 }
 
 .hero-orbit {
   position: absolute;
   left: 50%;
   top: 50%;
-  border: 1px solid rgba(24, 24, 27, 0.08);
+  border: 1px solid rgba(24, 24, 27, 0.1);
   border-radius: 9999px;
   transform: translate(-50%, -50%);
+  box-shadow: 0 0 60px rgba(99, 102, 241, 0.04);
 }
 
 .hero-orbit-outer {
-  width: 620px;
-  height: 620px;
+  width: 660px;
+  height: 660px;
 }
 
 .hero-orbit-inner {
-  width: 380px;
-  height: 380px;
+  width: 410px;
+  height: 410px;
 }
 
 .hero-core {
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 20px 70px rgba(0, 0, 0, 0.25);
+    0 24px 70px rgba(0, 0, 0, 0.28);
+}
+
+.hero-visual,
+.hero-grid,
+.hero-orb,
+.hero-eyebrow,
+.hero-title-line,
+.hero-description,
+.hero-search,
+.hero-core,
+.hero-source {
+  will-change: transform, opacity, filter;
+}
+
+.hero-source {
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease;
 }
 
 @media (max-width: 639px) {

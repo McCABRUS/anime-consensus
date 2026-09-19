@@ -1,14 +1,25 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
-
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import { createPortal } from "react-dom";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import gsap from "gsap";
 
 import { createAnimeSlug } from "@/lib/anime/slug";
-
 import type { AnimeSearchResult } from "@/lib/anime/types";
+
+const emptySubscribe = () => () => {};
+const getServerSnapshot = () => false;
+const getClientSnapshot = () => true;
+
+const ROUTE_TRANSITION_DURATION = 0.72;
 
 type Props = {
   placeholder: string;
@@ -22,16 +33,34 @@ export default function AnimeSearch({
   onNavigate,
 }: Props) {
   const router = useRouter();
-  const locale = useLocale();
-  const [isNavigating, startNavigation] = useTransition();
+  const pathname = usePathname();
+
+  const currentLocale = pathname.split("/")[1] || "en";
+
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<AnimeSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+  const [pendingPath, setPendingPath] = useState<string | null>(null);
+
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
+
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const requestIdRef = useRef(0);
+  const loadingOverlayRef = useRef<HTMLDivElement>(null);
+  const loadingContentRef = useRef<HTMLDivElement>(null);
+  const navigationStartedRef = useRef(false);
+
+  const isNavigating =
+    !onNavigate && pendingPath !== null && pathname !== pendingPath;
 
   useEffect(() => {
     if (!autoFocus) {
@@ -92,6 +121,74 @@ export default function AnimeSearch({
     };
   }, [query]);
 
+  useEffect(() => {
+    if (!isNavigating || !pendingHref) {
+      navigationStartedRef.current = false;
+      return;
+    }
+
+    const overlay = loadingOverlayRef.current;
+    const content = loadingContentRef.current;
+
+    if (!overlay || !content || navigationStartedRef.current) {
+      return;
+    }
+
+    navigationStartedRef.current = true;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    gsap.set(overlay, {
+      opacity: 0,
+      pointerEvents: "auto",
+    });
+
+    gsap.set(content, {
+      opacity: 0,
+      y: 8,
+      scale: 0.96,
+    });
+
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+      onComplete: () => {
+        router.push(pendingHref);
+      },
+    });
+
+    timeline
+      .to(overlay, {
+        opacity: 1,
+        duration: ROUTE_TRANSITION_DURATION,
+        ease: "power2.inOut",
+      })
+      .to(
+        content,
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.35,
+          ease: "power3.out",
+        },
+        0.18,
+      );
+
+    return () => {
+      timeline.kill();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isNavigating, pendingHref, router]);
+
+  useEffect(() => {
+    if (!isNavigating) {
+      navigationStartedRef.current = false;
+    }
+  }, [isNavigating]);
+
   const selectAnime = (anime: AnimeSearchResult) => {
     if (isNavigating) {
       return;
@@ -108,21 +205,25 @@ export default function AnimeSearch({
     setHighlightedIndex(-1);
 
     const slug = createAnimeSlug(selectedTitle);
-
-    const href = `/${locale}/anime/${anime.provider}/${anime.id}/${slug}`;
+    const href = `/${currentLocale}/anime/${anime.provider}/${anime.id}/${slug}`;
 
     if (onNavigate) {
       onNavigate(href);
       return;
     }
 
-    startNavigation(() => {
-      router.push(href);
-    });
+    const targetPath = new URL(href, window.location.origin).pathname;
+
+    if (targetPath === pathname) {
+      return;
+    }
+
+    setPendingHref(href);
+    setPendingPath(targetPath);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!results.length) {
+    if (!results.length || isNavigating) {
       return;
     }
 
@@ -163,26 +264,47 @@ export default function AnimeSearch({
     }
   };
 
+  const loadingOverlay =
+    !onNavigate && isClient && pendingPath
+      ? createPortal(
+          <div
+            ref={loadingOverlayRef}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-zinc-950/80"
+            style={{
+              opacity: 0,
+              pointerEvents: "none",
+            }}
+            aria-hidden={!isNavigating}
+            aria-live="polite"
+            aria-busy={isNavigating}
+          >
+            <div
+              ref={loadingContentRef}
+              className="flex items-center gap-3 rounded-full border border-zinc-200/20 bg-white/10 px-5 py-3 shadow-2xl backdrop-blur-xl"
+            >
+              <span
+                className="size-4 animate-spin rounded-full border-2 border-zinc-500 border-t-white"
+                aria-hidden="true"
+              />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">
+                Loading
+              </span>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
   return (
-    <div className="relative" aria-busy={isNavigating}>
-      {isNavigating && (
-        <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-white/35 backdrop-blur-[2px]"
-          aria-hidden="true"
-        >
-          <div className="flex items-center gap-3 rounded-full border border-zinc-200 bg-white/90 px-5 py-3 shadow-2xl backdrop-blur-xl">
-            <span className="size-4 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-950" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-600">
-              Loading
-            </span>
-          </div>
-        </div>
-      )}
+    <div aria-busy={isNavigating}>
+      {loadingOverlay}
 
       <div className="group flex items-center rounded-2xl border border-zinc-200 bg-white/80 p-2 shadow-[0_20px_80px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-300 focus-within:border-zinc-400 focus-within:shadow-[0_24px_100px_rgba(0,0,0,0.12)]">
         <label htmlFor={inputId} className="sr-only">
           {placeholder}
         </label>
+
         <input
           id={inputId}
           name="anime-search"
@@ -203,7 +325,7 @@ export default function AnimeSearch({
             }
           }}
           onFocus={() => {
-            if (results.length > 0) {
+            if (results.length > 0 && !isNavigating) {
               setIsOpen(true);
             }
           }}
@@ -222,7 +344,7 @@ export default function AnimeSearch({
         </div>
       </div>
 
-      {isOpen && (
+      {isOpen && !isNavigating && (
         <div
           className="absolute left-0 right-0 top-[calc(100%+0.75rem)] z-30 overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 p-2 shadow-2xl backdrop-blur-xl"
           role="listbox"
@@ -290,9 +412,7 @@ export default function AnimeSearch({
                     }`}
                   >
                     {anime.seasonYear && <span>{anime.seasonYear}</span>}
-
                     {anime.format && <span>{anime.format}</span>}
-
                     {anime.episodes && <span>{anime.episodes} EP</span>}
                   </div>
                 </div>
