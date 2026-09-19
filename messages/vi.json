@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Tìm kiếm",
+    "english": "Tiếng Anh",
+    "spanish": "Tiếng Tây Ban Nha",
+    "menu": "Menu",
+    "close": "Đóng"
+  },
+  "header": {
+    "howItWorks": "Cách hoạt động",
+    "rankings": "Xếp hạng"
+  },
+  "hero": {
+    "eyebrow": "Dữ liệu. Chuẩn hóa. Đồng thuận.",
+    "titleLine1": "Điểm số",
+    "titleLine2": "mà mọi người có thể đồng thuận.",
+    "description": "Tổng hợp điểm anime từ nhiều nguồn và chuẩn hóa chúng về cùng một thang điểm.",
+    "searchPlaceholder": "Tìm anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Cách hoạt động",
+    "title": "Từ nhiều điểm số đến đồng thuận.",
+    "description": "Chúng tôi thu thập điểm số từ nhiều nguồn, chuẩn hóa thang điểm và tính điểm đồng thuận minh bạch.",
+    "source": {
+      "title": "Nguồn",
+      "description": "Thu thập điểm số từ nhiều nền tảng anime."
+    },
+    "normalize": {
+      "title": "Chuẩn hóa",
+      "description": "Các thang điểm khác nhau được chuyển về cùng thang điểm 10."
+    },
+    "consensus": {
+      "title": "Đồng thuận",
+      "description": "Các điểm đã chuẩn hóa được kết hợp thành một điểm đồng thuận duy nhất."
+    }
+  },
+  "footer": {
+    "tagline": "Sự đồng thuận minh bạch dựa trên nhiều đánh giá anime."
+  },
+  "anime": {
+    "synopsis": "Tóm tắt",
+    "format": "Định dạng",
+    "status": "Trạng thái",
+    "episodes": "Tập",
+    "season": "Mùa",
+    "studio": "Studio",
+    "productionCompanies": "Công ty sản xuất",
+    "unknown": "Không rõ",
+    "noDescription": "Không có mô tả.",
+    "tvdbSource": "(Nguồn: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Phim",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Đặc biệt",
+      "TV_SHORT": "TV ngắn",
+      "MUSIC": "Âm nhạc"
+    },
+    "statusValues": {
+      "FINISHED": "Đã hoàn thành",
+      "RELEASING": "Đang phát hành",
+      "NOT_YET_RELEASED": "Chưa phát hành",
+      "CANCELLED": "Đã hủy",
+      "HIATUS": "Tạm ngừng"
+    },
+    "seasons": {
+      "WINTER": "Mùa đông",
+      "SPRING": "Mùa xuân",
+      "SUMMER": "Mùa hè",
+      "FALL": "Mùa thu"
+    },
+    "brand": "Anime Consensus"
+  }
+}

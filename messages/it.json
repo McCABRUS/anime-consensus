@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Cerca",
+    "english": "Inglese",
+    "spanish": "Spagnolo",
+    "menu": "Menu",
+    "close": "Chiudi"
+  },
+  "header": {
+    "howItWorks": "Come funziona",
+    "rankings": "Classifiche"
+  },
+  "hero": {
+    "eyebrow": "Dati. Normalizzazione. Consenso.",
+    "titleLine1": "La valutazione",
+    "titleLine2": "su cui possiamo essere d'accordo.",
+    "description": "Valutazioni anime provenienti da più fonti, riunite e normalizzate su una scala comune.",
+    "searchPlaceholder": "Cerca un anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Come funziona",
+    "title": "Da più valutazioni a un consenso.",
+    "description": "Raccogliamo valutazioni da diverse fonti, normalizziamo le loro scale e calcoliamo un punteggio di consenso trasparente.",
+    "source": {
+      "title": "Fonti",
+      "description": "Raccogliamo valutazioni da diverse piattaforme anime."
+    },
+    "normalize": {
+      "title": "Normalizzare",
+      "description": "Le diverse scale di valutazione vengono convertite su una scala comune di 10 punti."
+    },
+    "consensus": {
+      "title": "Consenso",
+      "description": "Le valutazioni normalizzate vengono combinate per produrre un'unica valutazione di consenso."
+    }
+  },
+  "footer": {
+    "tagline": "Un consenso trasparente basato su più valutazioni anime."
+  },
+  "anime": {
+    "synopsis": "Sinossi",
+    "format": "Formato",
+    "status": "Stato",
+    "episodes": "Episodi",
+    "season": "Stagione",
+    "studio": "Studio",
+    "productionCompanies": "Società di produzione",
+    "unknown": "Sconosciuto",
+    "noDescription": "Nessuna descrizione disponibile.",
+    "tvdbSource": "(Fonte: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Film",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Speciale",
+      "TV_SHORT": "Cortometraggio TV",
+      "MUSIC": "Musica"
+    },
+    "statusValues": {
+      "FINISHED": "Terminato",
+      "RELEASING": "In corso",
+      "NOT_YET_RELEASED": "Non ancora pubblicato",
+      "CANCELLED": "Annullato",
+      "HIATUS": "In pausa"
+    },
+    "seasons": {
+      "WINTER": "Inverno",
+      "SPRING": "Primavera",
+      "SUMMER": "Estate",
+      "FALL": "Autunno"
+    },
+    "brand": "Anime Consensus"
+  }
+}

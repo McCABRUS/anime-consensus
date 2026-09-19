@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Cari",
+    "english": "Inggris",
+    "spanish": "Spanyol",
+    "menu": "Menu",
+    "close": "Tutup"
+  },
+  "header": {
+    "howItWorks": "Cara kerja",
+    "rankings": "Peringkat"
+  },
+  "hero": {
+    "eyebrow": "Data. Normalisasi. Konsensus.",
+    "titleLine1": "Rating",
+    "titleLine2": "yang dapat kita sepakati.",
+    "description": "Rating anime dari berbagai sumber digabungkan dan dinormalisasi ke dalam skala yang sama.",
+    "searchPlaceholder": "Cari anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Cara kerja",
+    "title": "Dari berbagai rating menuju konsensus.",
+    "description": "Kami mengumpulkan rating dari berbagai sumber, menormalisasi skalanya, dan menghitung rating konsensus yang transparan.",
+    "source": {
+      "title": "Sumber",
+      "description": "Rating dikumpulkan dari berbagai platform anime."
+    },
+    "normalize": {
+      "title": "Normalisasi",
+      "description": "Skala rating yang berbeda diubah menjadi skala 10 poin yang sama."
+    },
+    "consensus": {
+      "title": "Konsensus",
+      "description": "Rating yang telah dinormalisasi digabungkan menjadi satu rating konsensus."
+    }
+  },
+  "footer": {
+    "tagline": "Konsensus transparan berdasarkan berbagai rating anime."
+  },
+  "anime": {
+    "synopsis": "Sinopsis",
+    "format": "Format",
+    "status": "Status",
+    "episodes": "Episode",
+    "season": "Musim",
+    "studio": "Studio",
+    "productionCompanies": "Perusahaan produksi",
+    "unknown": "Tidak diketahui",
+    "noDescription": "Tidak ada deskripsi yang tersedia.",
+    "tvdbSource": "(Sumber: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Film",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Spesial",
+      "TV_SHORT": "TV pendek",
+      "MUSIC": "Musik"
+    },
+    "statusValues": {
+      "FINISHED": "Selesai",
+      "RELEASING": "Sedang tayang",
+      "NOT_YET_RELEASED": "Belum dirilis",
+      "CANCELLED": "Dibatalkan",
+      "HIATUS": "Jeda"
+    },
+    "seasons": {
+      "WINTER": "Musim dingin",
+      "SPRING": "Musim semi",
+      "SUMMER": "Musim panas",
+      "FALL": "Musim gugur"
+    },
+    "brand": "Anime Consensus"
+  }
+}

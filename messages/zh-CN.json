@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "搜索",
+    "english": "英语",
+    "spanish": "西班牙语",
+    "menu": "菜单",
+    "close": "关闭"
+  },
+  "header": {
+    "howItWorks": "工作原理",
+    "rankings": "排行榜"
+  },
+  "hero": {
+    "eyebrow": "数据。标准化。共识。",
+    "titleLine1": "一个",
+    "titleLine2": "大家都能认同的评分。",
+    "description": "汇集多个来源的动漫评分，并将其标准化到统一的评分尺度。",
+    "searchPlaceholder": "搜索动漫...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "工作原理",
+    "title": "从多个评分到一个共识。",
+    "description": "我们从不同来源收集评分，统一评分尺度，并计算透明的共识评分。",
+    "source": {
+      "title": "来源",
+      "description": "收集多个动漫平台的评分。"
+    },
+    "normalize": {
+      "title": "标准化",
+      "description": "将不同的评分尺度转换为统一的10分制。"
+    },
+    "consensus": {
+      "title": "共识",
+      "description": "将标准化后的评分合并为一个共识评分。"
+    }
+  },
+  "footer": {
+    "tagline": "基于多个动漫评分的透明共识。"
+  },
+  "anime": {
+    "synopsis": "简介",
+    "format": "格式",
+    "status": "状态",
+    "episodes": "集数",
+    "season": "季度",
+    "studio": "制作公司",
+    "productionCompanies": "制作公司",
+    "unknown": "未知",
+    "noDescription": "暂无描述。",
+    "tvdbSource": "(来源：TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "电影",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "特别篇",
+      "TV_SHORT": "电视短篇",
+      "MUSIC": "音乐"
+    },
+    "statusValues": {
+      "FINISHED": "已完结",
+      "RELEASING": "连载中",
+      "NOT_YET_RELEASED": "尚未发布",
+      "CANCELLED": "已取消",
+      "HIATUS": "暂停"
+    },
+    "seasons": {
+      "WINTER": "冬季",
+      "SPRING": "春季",
+      "SUMMER": "夏季",
+      "FALL": "秋季"
+    },
+    "brand": "Anime Consensus"
+  }
+}

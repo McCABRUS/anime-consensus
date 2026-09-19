@@ -32,6 +32,16 @@ export type LocalizedTitle = {
   synonyms: string[];
 };
 
+export type LocalizedMetadata = {
+  title: string | null;
+  overview: string | null;
+};
+
+export type AnimeLocalizedMetadata = {
+  source: "tvdb";
+  translations: Record<string, LocalizedMetadata>;
+};
+
 export type AnimeSearchResult = {
   id: string | number;
   malId: number | null;
@@ -69,6 +79,8 @@ export type AnimeDetails = {
   title: LocalizedTitle;
 
   description: string | null;
+
+  localizedMetadata?: AnimeLocalizedMetadata;
 
   coverImage: string | null;
 
@@ -111,6 +123,8 @@ export type CanonicalAnime = {
   title: LocalizedTitle;
 
   description: string | null;
+
+  localizedMetadata?: AnimeLocalizedMetadata;
 
   coverImage: string | null;
 

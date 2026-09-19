@@ -6,16 +6,18 @@ import { useTranslations } from "next-intl";
 
 import GlobalSearch from "./GlobalSearch";
 import MobileMenu from "./MobileMenu";
+import { locales } from "@/i18n/locales";
 
 export default function Header() {
   const pathname = usePathname();
   const currentLocale = pathname.split("/")[1] || "en";
-  const otherLocale = currentLocale === "en" ? "es" : "en";
   const isAnimePage = pathname.includes("/anime/");
 
-  const switchPath =
-    pathname.replace(`/${currentLocale}`, `/${otherLocale}`) ||
-    `/${otherLocale}`;
+  const currentLanguage =
+    locales.find((locale) => locale.code === currentLocale) ?? locales[0];
+
+  const getLocalePath = (localeCode: string) =>
+    pathname.replace(`/${currentLocale}`, `/${localeCode}`) || `/${localeCode}`;
 
   const homePath = `/${currentLocale}`;
   const howItWorksPath = isAnimePage
@@ -70,26 +72,60 @@ export default function Header() {
 
           <GlobalSearch dark={isAnimePage} />
 
-          <Link
-            href={switchPath}
-            className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
-              isAnimePage
-                ? "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-                : "border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-950"
-            }`}
-          >
-            {otherLocale}
-          </Link>
+          <details className="relative">
+            <summary
+              className={`flex cursor-pointer list-none items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                isAnimePage
+                  ? "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+                  : "border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-950"
+              }`}
+            >
+              <span>{currentLanguage.code}</span>
+              <span aria-hidden="true" className="text-[10px] opacity-50">
+                ↓
+              </span>
+            </summary>
+
+            <div
+              className={`absolute right-0 top-[calc(100%+0.75rem)] z-50 w-64 overflow-hidden rounded-2xl border p-2 shadow-2xl backdrop-blur-xl ${
+                isAnimePage
+                  ? "border-zinc-800 bg-zinc-950/95"
+                  : "border-zinc-200 bg-white/95"
+              }`}
+            >
+              {locales.map((locale) => {
+                const isCurrent = locale.code === currentLocale;
+
+                return (
+                  <Link
+                    key={locale.code}
+                    href={getLocalePath(locale.code)}
+                    aria-current={isCurrent ? "page" : undefined}
+                    className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                      isCurrent
+                        ? isAnimePage
+                          ? "bg-zinc-800 text-white"
+                          : "bg-zinc-100 text-zinc-950"
+                        : isAnimePage
+                          ? "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                          : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950"
+                    }`}
+                  >
+                    <span>{locale.nativeName}</span>
+                    <span className="ml-3 shrink-0 text-[10px] font-mono uppercase opacity-50">
+                      {locale.code}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </details>
         </div>
 
         <div className="flex items-center gap-2 sm:hidden">
           <GlobalSearch dark={isAnimePage} />
 
-          <MobileMenu
-            otherLocale={otherLocale}
-            switchPath={switchPath}
-            dark={isAnimePage}
-          />
+          <MobileMenu dark={isAnimePage} />
         </div>
       </div>
     </header>

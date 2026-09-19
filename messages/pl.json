@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Szukaj",
+    "english": "Angielski",
+    "spanish": "Hiszpański",
+    "menu": "Menu",
+    "close": "Zamknij"
+  },
+  "header": {
+    "howItWorks": "Jak to działa",
+    "rankings": "Rankingi"
+  },
+  "hero": {
+    "eyebrow": "Dane. Normalizacja. Konsensus.",
+    "titleLine1": "Ocena,",
+    "titleLine2": "co do której możemy się zgodzić.",
+    "description": "Oceny anime z wielu źródeł połączone i znormalizowane do wspólnej skali.",
+    "searchPlaceholder": "Szukaj anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Jak to działa",
+    "title": "Od wielu ocen do konsensusu.",
+    "description": "Zbieramy oceny z różnych źródeł, normalizujemy ich skale i obliczamy przejrzystą ocenę konsensusu.",
+    "source": {
+      "title": "Źródła",
+      "description": "Zbieramy oceny z wielu platform anime."
+    },
+    "normalize": {
+      "title": "Normalizacja",
+      "description": "Różne skale ocen są przeliczane na wspólną skalę 10-punktową."
+    },
+    "consensus": {
+      "title": "Konsensus",
+      "description": "Znormalizowane oceny są łączone w jedną ocenę konsensusu."
+    }
+  },
+  "footer": {
+    "tagline": "Przejrzysty konsensus oparty na wielu ocenach anime."
+  },
+  "anime": {
+    "synopsis": "Opis",
+    "format": "Format",
+    "status": "Status",
+    "episodes": "Odcinki",
+    "season": "Sezon",
+    "studio": "Studio",
+    "productionCompanies": "Firmy produkcyjne",
+    "unknown": "Nieznane",
+    "noDescription": "Brak dostępnego opisu.",
+    "tvdbSource": "(Źródło: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Film",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Specjalny",
+      "TV_SHORT": "Krótkometrażowy TV",
+      "MUSIC": "Muzyka"
+    },
+    "statusValues": {
+      "FINISHED": "Zakończone",
+      "RELEASING": "W trakcie emisji",
+      "NOT_YET_RELEASED": "Jeszcze nie wydane",
+      "CANCELLED": "Anulowane",
+      "HIATUS": "Przerwa"
+    },
+    "seasons": {
+      "WINTER": "Zima",
+      "SPRING": "Wiosna",
+      "SUMMER": "Lato",
+      "FALL": "Jesień"
+    },
+    "brand": "Anime Consensus"
+  }
+}

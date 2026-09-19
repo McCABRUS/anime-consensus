@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Soek",
+    "english": "Engels",
+    "spanish": "Spaans",
+    "menu": "Kieslys",
+    "close": "Sluit"
+  },
+  "header": {
+    "howItWorks": "Hoe dit werk",
+    "rankings": "Ranglys"
+  },
+  "hero": {
+    "eyebrow": "Data. Normalisering. Konsensus.",
+    "titleLine1": "Die gradering",
+    "titleLine2": "waaroor ons kan saamstem.",
+    "description": "Anime-graderings uit verskeie bronne, saamgevoeg en op 'n gemeenskaplike skaal genormaliseer.",
+    "searchPlaceholder": "Soek 'n anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Hoe dit werk",
+    "title": "Van verskeie graderings na konsensus.",
+    "description": "Ons versamel graderings uit verskillende bronne, normaliseer hul skale en bereken 'n deursigtige konsensusgradering.",
+    "source": {
+      "title": "Bronne",
+      "description": "Graderings van verskeie anime-platforms word versamel."
+    },
+    "normalize": {
+      "title": "Normaliseer",
+      "description": "Verskillende graderingskale word na 'n gemeenskaplike 10-puntskaal omgeskakel."
+    },
+    "consensus": {
+      "title": "Konsensus",
+      "description": "Die genormaliseerde graderings word gekombineer tot een konsensusgradering."
+    }
+  },
+  "footer": {
+    "tagline": "'n Deursigtige konsensus gebaseer op verskeie anime-graderings."
+  },
+  "anime": {
+    "synopsis": "Opsomming",
+    "format": "Formaat",
+    "status": "Status",
+    "episodes": "Episodes",
+    "season": "Seisoen",
+    "studio": "Ateljee",
+    "productionCompanies": "Produksiemaatskappye",
+    "unknown": "Onbekend",
+    "noDescription": "Geen beskrywing beskikbaar nie.",
+    "tvdbSource": "(Bron: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Fliek",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Spesiaal",
+      "TV_SHORT": "TV-kortfilm",
+      "MUSIC": "Musiek"
+    },
+    "statusValues": {
+      "FINISHED": "Voltooi",
+      "RELEASING": "Word uitgesaai",
+      "NOT_YET_RELEASED": "Nog nie vrygestel nie",
+      "CANCELLED": "Gekanselleer",
+      "HIATUS": "Op pouse"
+    },
+    "seasons": {
+      "WINTER": "Winter",
+      "SPRING": "Lente",
+      "SUMMER": "Somer",
+      "FALL": "Herfs"
+    },
+    "brand": "Anime Consensus"
+  }
+}

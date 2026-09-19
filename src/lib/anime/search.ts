@@ -34,10 +34,6 @@ export async function searchAnime(query: string): Promise<AnimeSearchResult[]> {
             throw new Error("No results");
           }
 
-          console.log(
-            `[Anime Search] Provider "${provider.name}" returned ${results.length} results.`,
-          );
-
           return results;
         } catch (error) {
           console.warn(
@@ -56,10 +52,6 @@ export async function searchAnime(query: string): Promise<AnimeSearchResult[]> {
       const results = await searchJikan(normalizedQuery);
 
       if (results.length > 0) {
-        console.log(
-          `[Anime Search] Provider "jikan" returned ${results.length} results.`,
-        );
-
         return results;
       }
 

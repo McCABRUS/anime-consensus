@@ -18,6 +18,8 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
+const rtlLocales = new Set(["ar", "he"]);
+
 export const metadata: Metadata = {
   title: "Anime Consensus",
   description:
@@ -38,9 +40,10 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const direction = rtlLocales.has(locale) ? "rtl" : "ltr";
 
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={direction}>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >

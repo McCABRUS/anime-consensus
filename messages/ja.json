@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "検索",
+    "english": "英語",
+    "spanish": "スペイン語",
+    "menu": "メニュー",
+    "close": "閉じる"
+  },
+  "header": {
+    "howItWorks": "仕組み",
+    "rankings": "ランキング"
+  },
+  "hero": {
+    "eyebrow": "データ。正規化。コンセンサス。",
+    "titleLine1": "みんなが納得できる",
+    "titleLine2": "評価を。",
+    "description": "複数のソースからアニメ評価を集め、共通のスケールに正規化します。",
+    "searchPlaceholder": "アニメを検索...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "仕組み",
+    "title": "複数の評価からコンセンサスへ。",
+    "description": "さまざまなソースから評価を集め、スケールを正規化し、透明性のあるコンセンサス評価を算出します。",
+    "source": {
+      "title": "ソース",
+      "description": "複数のアニメプラットフォームから評価を収集します。"
+    },
+    "normalize": {
+      "title": "正規化",
+      "description": "異なる評価スケールを共通の10点満点に変換します。"
+    },
+    "consensus": {
+      "title": "コンセンサス",
+      "description": "正規化された評価を統合し、1つのコンセンサス評価を算出します。"
+    }
+  },
+  "footer": {
+    "tagline": "複数のアニメ評価から導き出す、透明性のあるコンセンサス。"
+  },
+  "anime": {
+    "synopsis": "あらすじ",
+    "format": "形式",
+    "status": "ステータス",
+    "episodes": "エピソード",
+    "season": "シーズン",
+    "studio": "スタジオ",
+    "productionCompanies": "制作会社",
+    "unknown": "不明",
+    "noDescription": "説明はありません。",
+    "tvdbSource": "(出典: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "映画",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "スペシャル",
+      "TV_SHORT": "TVショート",
+      "MUSIC": "音楽"
+    },
+    "statusValues": {
+      "FINISHED": "完結",
+      "RELEASING": "放送中",
+      "NOT_YET_RELEASED": "未公開",
+      "CANCELLED": "キャンセル",
+      "HIATUS": "休止中"
+    },
+    "seasons": {
+      "WINTER": "冬",
+      "SPRING": "春",
+      "SUMMER": "夏",
+      "FALL": "秋"
+    },
+    "brand": "Anime Consensus"
+  }
+}

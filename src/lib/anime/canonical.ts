@@ -215,6 +215,9 @@ export function createCanonicalAnime(
 
   const rawDescription = findFirst((anime) => anime.description);
 
+  const localizedMetadata =
+    findFirst((anime) => anime.localizedMetadata) ?? undefined;
+
   return {
     id: createCanonicalId(primary),
 
@@ -225,6 +228,8 @@ export function createCanonicalAnime(
     title,
 
     description: normalizeDescription(rawDescription),
+
+    localizedMetadata,
 
     coverImage: findFirst((anime) => anime.coverImage),
 

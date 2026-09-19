@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Rechercher",
+    "english": "Anglais",
+    "spanish": "Espagnol",
+    "menu": "Menu",
+    "close": "Fermer"
+  },
+  "header": {
+    "howItWorks": "Comment ça marche",
+    "rankings": "Classement"
+  },
+  "hero": {
+    "eyebrow": "Données. Normalisation. Consensus.",
+    "titleLine1": "La note",
+    "titleLine2": "sur laquelle on peut s'accorder.",
+    "description": "Les notes d'anime provenant de plusieurs sources sont réunies et normalisées sur une échelle commune.",
+    "searchPlaceholder": "Rechercher un anime...",
+    "sourceMal": "MyAnimeList",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "Anime News Network",
+    "sourceCrunchyroll": "Crunchyroll"
+  },
+  "howItWorks": {
+    "eyebrow": "Comment ça marche",
+    "title": "De plusieurs notes à un consensus.",
+    "description": "Nous recueillons les notes de différentes sources, normalisons leurs échelles et calculons une note de consensus transparente.",
+    "source": {
+      "title": "Sources",
+      "description": "Les notes provenant de plusieurs plateformes d'anime sont recueillies."
+    },
+    "normalize": {
+      "title": "Normaliser",
+      "description": "Les différentes échelles de notation sont converties sur une échelle commune de 10 points."
+    },
+    "consensus": {
+      "title": "Consensus",
+      "description": "Les notes normalisées sont combinées pour produire une seule note de consensus."
+    }
+  },
+  "footer": {
+    "tagline": "Un consensus transparent basé sur plusieurs notes d'anime."
+  },
+  "anime": {
+    "brand": "Anime Consensus",
+    "synopsis": "Synopsis",
+    "format": "Format",
+    "status": "Statut",
+    "episodes": "Épisodes",
+    "season": "Saison",
+    "studio": "Studio",
+    "productionCompanies": "Sociétés de production",
+    "unknown": "Inconnu",
+    "noDescription": "Aucune description disponible.",
+    "tvdbSource": "(Source : TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Film",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Spécial",
+      "TV_SHORT": "Court métrage TV",
+      "MUSIC": "Musique"
+    },
+    "statusValues": {
+      "FINISHED": "Terminé",
+      "RELEASING": "En cours de diffusion",
+      "NOT_YET_RELEASED": "Pas encore sorti",
+      "CANCELLED": "Annulé",
+      "HIATUS": "En pause"
+    },
+    "seasons": {
+      "WINTER": "Hiver",
+      "SPRING": "Printemps",
+      "SUMMER": "Été",
+      "FALL": "Automne"
+    }
+  }
+}

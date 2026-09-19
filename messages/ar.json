@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "بحث",
+    "english": "الإنجليزية",
+    "spanish": "الإسبانية",
+    "menu": "القائمة",
+    "close": "إغلاق"
+  },
+  "header": {
+    "howItWorks": "كيف يعمل",
+    "rankings": "التصنيفات"
+  },
+  "hero": {
+    "eyebrow": "بيانات. توحيد. إجماع.",
+    "titleLine1": "التقييم",
+    "titleLine2": "الذي يمكن للجميع الاتفاق عليه.",
+    "description": "نجمع تقييمات الأنمي من مصادر متعددة ونوحّدها على مقياس مشترك.",
+    "searchPlaceholder": "ابحث عن أنمي...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "كيف يعمل",
+    "title": "من تقييمات متعددة إلى إجماع.",
+    "description": "نجمع التقييمات من مصادر مختلفة، ونوحّد مقاييسها، ونحسب تقييم إجماع شفافًا.",
+    "source": {
+      "title": "المصادر",
+      "description": "نجمع التقييمات من عدة منصات للأنمي."
+    },
+    "normalize": {
+      "title": "التوحيد",
+      "description": "نحوّل مقاييس التقييم المختلفة إلى مقياس مشترك من 10 نقاط."
+    },
+    "consensus": {
+      "title": "الإجماع",
+      "description": "نُدمج التقييمات الموحّدة لإنتاج تقييم إجماع واحد."
+    }
+  },
+  "footer": {
+    "tagline": "إجماع شفاف مبني على عدة تقييمات للأنمي."
+  },
+  "anime": {
+    "synopsis": "الملخص",
+    "format": "التنسيق",
+    "status": "الحالة",
+    "episodes": "الحلقات",
+    "season": "الموسم",
+    "studio": "الاستوديو",
+    "productionCompanies": "شركات الإنتاج",
+    "unknown": "غير معروف",
+    "noDescription": "لا يوجد وصف متاح.",
+    "tvdbSource": "(المصدر: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "فيلم",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "خاص",
+      "TV_SHORT": "فيلم تلفزيوني قصير",
+      "MUSIC": "موسيقى"
+    },
+    "statusValues": {
+      "FINISHED": "مكتمل",
+      "RELEASING": "قيد العرض",
+      "NOT_YET_RELEASED": "لم يُصدر بعد",
+      "CANCELLED": "ملغى",
+      "HIATUS": "متوقف مؤقتًا"
+    },
+    "seasons": {
+      "WINTER": "الشتاء",
+      "SPRING": "الربيع",
+      "SUMMER": "الصيف",
+      "FALL": "الخريف"
+    },
+    "brand": "Anime Consensus"
+  }
+}

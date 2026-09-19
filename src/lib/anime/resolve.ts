@@ -1,15 +1,12 @@
 import { getAniListAnime } from "./providers/anilist";
-
 import { getKitsuAnime, getKitsuIdByMalId } from "./providers/kitsu";
-
 import { getJikanAnime } from "./providers/jikan";
-
 import { getRatings } from "./rating-sources";
-
 import { getAnnIdByMalId } from "./identity/ann";
-
+import { getTVDBIdsByMalId } from "./identity/animap";
+import { getTVDBLocalizedMetadata } from "./providers/tvdb";
+import { TVDB_LANGUAGE_CODES } from "./tvdbLanguages";
 import type { AnimeDetails, AnimeProvider, CanonicalAnime } from "./types";
-
 import { createCanonicalAnime } from "./canonical";
 
 const ANILIST_ENDPOINT = "https://graphql.anilist.co";
@@ -33,13 +30,10 @@ async function getProviderDetails(
 async function findAniListByMalId(malId: number): Promise<AnimeDetails | null> {
   const response = await fetch(ANILIST_ENDPOINT, {
     method: "POST",
-
     headers: {
       "Content-Type": "application/json",
-
       Accept: "application/json",
     },
-
     body: JSON.stringify({
       query: `
             query ($idMal: Int) {
@@ -51,100 +45,91 @@ async function findAniListByMalId(malId: number): Promise<AnimeDetails | null> {
               }
             }
           `,
-
-      variables: {
-        idMal: malId,
-      },
+      variables: { idMal: malId },
     }),
-
-    next: {
-      revalidate: 300,
-    },
+    next: { revalidate: 300 },
   });
 
-  if (!response.ok) {
-    return null;
-  }
+  if (!response.ok) return null;
 
   const payload = (await response.json()) as {
-    data?: {
-      Media?: {
-        id: number;
-      };
-    };
-
-    errors?: Array<{
-      message: string;
-    }>;
+    data?: { Media?: { id: number } };
+    errors?: Array<{ message: string }>;
   };
 
-  if (payload.errors?.length) {
-    return null;
-  }
+  if (payload.errors?.length) return null;
 
   const aniListId = payload.data?.Media?.id;
 
-  if (typeof aniListId !== "number") {
-    return null;
-  }
+  if (typeof aniListId !== "number") return null;
 
   return getAniListAnime(aniListId);
 }
 
 async function enrichKitsuIdentity(anime: AnimeDetails): Promise<AnimeDetails> {
-  if (anime.reference.provider === "kitsu") {
-    return anime;
-  }
-
-  if (anime.reference.malId === null) {
-    return anime;
-  }
-
-  if (anime.externalIds?.kitsu) {
-    return anime;
-  }
+  if (anime.reference.provider === "kitsu") return anime;
+  if (anime.reference.malId === null) return anime;
+  if (anime.externalIds?.kitsu) return anime;
 
   const kitsuId = await getKitsuIdByMalId(anime.reference.malId);
 
-  if (!kitsuId) {
-    return anime;
-  }
+  if (!kitsuId) return anime;
 
   return {
     ...anime,
-
-    externalIds: {
-      ...anime.externalIds,
-
-      kitsu: kitsuId,
-    },
+    externalIds: { ...anime.externalIds, kitsu: kitsuId },
   };
 }
 
 async function enrichAnnIdentity(anime: AnimeDetails): Promise<AnimeDetails> {
-  if (anime.externalIds?.ann) {
-    return anime;
-  }
-
-  if (anime.reference.malId === null) {
-    return anime;
-  }
+  if (anime.externalIds?.ann) return anime;
+  if (anime.reference.malId === null) return anime;
 
   const annId = await getAnnIdByMalId(anime.reference.malId);
 
-  if (!annId) {
-    return anime;
-  }
+  if (!annId) return anime;
 
   return {
     ...anime,
-
-    externalIds: {
-      ...anime.externalIds,
-
-      ann: annId,
-    },
+    externalIds: { ...anime.externalIds, ann: annId },
   };
+}
+
+async function enrichTVDBMetadata(anime: AnimeDetails): Promise<AnimeDetails> {
+  try {
+    const malId = anime.reference.malId;
+
+    const tvdbIds =
+      malId !== null ? (await getTVDBIdsByMalId(malId)).map(String) : [];
+
+    const localizedMetadata = await getTVDBLocalizedMetadata(
+      anime.title,
+      TVDB_LANGUAGE_CODES,
+      tvdbIds,
+      {
+        format: anime.format,
+        seasonYear: anime.seasonYear,
+        studios: anime.studios,
+        productionCompanies: anime.productionCompanies ?? [],
+      },
+    );
+
+    if (!localizedMetadata) {
+      return anime;
+    }
+
+    return {
+      ...anime,
+      localizedMetadata,
+    };
+  } catch (error) {
+    console.error("[TheTVDB] Metadata enrichment failed.", {
+      malId: anime.reference.malId,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+
+    return anime;
+  }
 }
 
 export async function resolveCanonicalAnime(
@@ -153,9 +138,7 @@ export async function resolveCanonicalAnime(
 ): Promise<CanonicalAnime | null> {
   const primary = await getProviderDetails(provider, id);
 
-  if (!primary) {
-    return null;
-  }
+  if (!primary) return null;
 
   let enrichedPrimary = primary;
 
@@ -170,6 +153,8 @@ export async function resolveCanonicalAnime(
   } catch {
     enrichedPrimary = enrichedPrimary;
   }
+
+  enrichedPrimary = await enrichTVDBMetadata(enrichedPrimary);
 
   const related: AnimeDetails[] = [];
 

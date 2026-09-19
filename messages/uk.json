@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Пошук",
+    "english": "Англійська",
+    "spanish": "Іспанська",
+    "menu": "Меню",
+    "close": "Закрити"
+  },
+  "header": {
+    "howItWorks": "Як це працює",
+    "rankings": "Рейтинги"
+  },
+  "hero": {
+    "eyebrow": "Дані. Нормалізація. Консенсус.",
+    "titleLine1": "Оцінка,",
+    "titleLine2": "з якою можна погодитися.",
+    "description": "Оцінки аніме з кількох джерел об'єднуються та нормалізуються до спільної шкали.",
+    "searchPlaceholder": "Пошук аніме...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Як це працює",
+    "title": "Від кількох оцінок до консенсусу.",
+    "description": "Ми збираємо оцінки з різних джерел, нормалізуємо їхні шкали та розраховуємо прозору консенсусну оцінку.",
+    "source": {
+      "title": "Джерела",
+      "description": "Збираємо оцінки з кількох аніме-платформ."
+    },
+    "normalize": {
+      "title": "Нормалізація",
+      "description": "Різні шкали оцінювання перетворюються на спільну десятибальну шкалу."
+    },
+    "consensus": {
+      "title": "Консенсус",
+      "description": "Нормалізовані оцінки об'єднуються в одну консенсусну оцінку."
+    }
+  },
+  "footer": {
+    "tagline": "Прозорий консенсус на основі кількох оцінок аніме."
+  },
+  "anime": {
+    "synopsis": "Сюжет",
+    "format": "Формат",
+    "status": "Статус",
+    "episodes": "Епізоди",
+    "season": "Сезон",
+    "studio": "Студія",
+    "productionCompanies": "Виробничі компанії",
+    "unknown": "Невідомо",
+    "noDescription": "Опис недоступний.",
+    "tvdbSource": "(Source: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Фільм",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Спецвипуск",
+      "TV_SHORT": "ТВ-короткометражка",
+      "MUSIC": "Музика"
+    },
+    "statusValues": {
+      "FINISHED": "Завершено",
+      "RELEASING": "Виходить",
+      "NOT_YET_RELEASED": "Ще не випущено",
+      "CANCELLED": "Скасовано",
+      "HIATUS": "На паузі"
+    },
+    "seasons": {
+      "WINTER": "Зима",
+      "SPRING": "Весна",
+      "SUMMER": "Літо",
+      "FALL": "Осінь"
+    },
+    "brand": "Anime Consensus"
+  }
+}

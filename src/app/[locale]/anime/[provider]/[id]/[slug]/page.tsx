@@ -168,11 +168,64 @@ export default async function AnimePage({ params }: Props) {
 
   const consensus = calculateConsensus(anime.ratings);
 
-  const title =
+  const defaultTitle =
     anime.title.english ||
     anime.title.romaji ||
     anime.title.native ||
     "Unknown anime";
+
+  const localizedTitle =
+    locale !== "en"
+      ? (anime.localizedMetadata?.translations[locale]?.title ?? null)
+      : null;
+
+  const title = localizedTitle || defaultTitle;
+
+  const localizedDescription =
+    locale !== "en"
+      ? (anime.localizedMetadata?.translations[locale]?.overview ??
+        anime.description)
+      : anime.description;
+
+  const usesTVDBDescription =
+    locale !== "en" &&
+    Boolean(anime.localizedMetadata?.translations[locale]?.overview);
+
+  const additionalTitles = [
+    {
+      label: "English",
+      value: anime.title.english,
+    },
+    {
+      label: "Original",
+      value: anime.title.native,
+    },
+    {
+      label: "Reading",
+      value: anime.title.romaji,
+    },
+  ];
+
+  const alternativeTitles = anime.title.synonyms ?? [];
+
+  const displayedTitles = [
+    ...additionalTitles,
+    ...alternativeTitles.map((value) => ({
+      label: "Alternative",
+      value,
+    })),
+  ].filter(({ value }) => {
+    if (!value) {
+      return false;
+    }
+
+    return value !== title;
+  });
+
+  const uniqueDisplayedTitles = displayedTitles.filter(
+    ({ value }, index, titles) =>
+      titles.findIndex((item) => item.value === value) === index,
+  );
 
   const translatedFormat = anime.format
     ? t(FORMAT_KEYS[anime.format as keyof typeof FORMAT_KEYS] ?? "unknown")
@@ -197,6 +250,7 @@ export default async function AnimePage({ params }: Props) {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <Header />
+
       <section className="relative overflow-hidden">
         {anime.bannerImage && (
           <>
@@ -237,10 +291,20 @@ export default async function AnimePage({ params }: Props) {
                 {title}
               </h1>
 
-              {anime.title.native && anime.title.native !== title && (
-                <p className="mt-4 text-lg text-zinc-500">
-                  {anime.title.native}
-                </p>
+              {uniqueDisplayedTitles.length > 0 && (
+                <div className="mt-4 space-y-1">
+                  {uniqueDisplayedTitles.map(({ label, value }) => (
+                    <p
+                      key={`${label}-${value}`}
+                      className="text-sm text-zinc-500"
+                    >
+                      <span className="mr-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-600">
+                        {label}
+                      </span>
+                      {value}
+                    </p>
+                  ))}
+                </div>
               )}
 
               {anime.genres.length > 0 && (
@@ -353,11 +417,24 @@ export default async function AnimePage({ params }: Props) {
             {t("synopsis")}
           </p>
 
-          {anime.description ? (
-            <Description text={anime.description} />
+          {localizedDescription ? (
+            <Description text={localizedDescription} />
           ) : (
             <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-500">
               {t("noDescription")}
+            </p>
+          )}
+
+          {usesTVDBDescription && (
+            <p className="mt-6 text-xs text-zinc-600">
+              <a
+                href="https://thetvdb.com"
+                target="_blank"
+                rel="noreferrer"
+                className="transition-colors hover:text-zinc-400"
+              >
+                {t("tvdbSource")}
+              </a>
             </p>
           )}
         </div>

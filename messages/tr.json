@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Ara",
+    "english": "İngilizce",
+    "spanish": "İspanyolca",
+    "menu": "Menü",
+    "close": "Kapat"
+  },
+  "header": {
+    "howItWorks": "Nasıl çalışır",
+    "rankings": "Sıralamalar"
+  },
+  "hero": {
+    "eyebrow": "Veri. Normalizasyon. Konsensüs.",
+    "titleLine1": "Üzerinde",
+    "titleLine2": "uzlaşabileceğimiz puan.",
+    "description": "Birden fazla kaynaktan anime puanlarını bir araya getiriyor ve ortak bir ölçeğe normalize ediyoruz.",
+    "searchPlaceholder": "Anime ara...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Nasıl çalışır",
+    "title": "Birden fazla puandan konsensüse.",
+    "description": "Farklı kaynaklardan puanları topluyor, ölçeklerini normalize ediyor ve şeffaf bir konsensüs puanı hesaplıyoruz.",
+    "source": {
+      "title": "Kaynaklar",
+      "description": "Birden fazla anime platformundan puanları topluyoruz."
+    },
+    "normalize": {
+      "title": "Normalize et",
+      "description": "Farklı puanlama ölçekleri ortak 10 puanlık ölçeğe dönüştürülür."
+    },
+    "consensus": {
+      "title": "Konsensüs",
+      "description": "Normalize edilmiş puanlar tek bir konsensüs puanında birleştirilir."
+    }
+  },
+  "footer": {
+    "tagline": "Birden fazla anime puanına dayanan şeffaf bir konsensüs."
+  },
+  "anime": {
+    "synopsis": "Özet",
+    "format": "Format",
+    "status": "Durum",
+    "episodes": "Bölümler",
+    "season": "Sezon",
+    "studio": "Stüdyo",
+    "productionCompanies": "Yapım şirketleri",
+    "unknown": "Bilinmiyor",
+    "noDescription": "Açıklama mevcut değil.",
+    "tvdbSource": "(Kaynak: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Film",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Özel",
+      "TV_SHORT": "TV Kısa",
+      "MUSIC": "Müzik"
+    },
+    "statusValues": {
+      "FINISHED": "Tamamlandı",
+      "RELEASING": "Yayınlanıyor",
+      "NOT_YET_RELEASED": "Henüz yayınlanmadı",
+      "CANCELLED": "İptal edildi",
+      "HIATUS": "Ara verildi"
+    },
+    "seasons": {
+      "WINTER": "Kış",
+      "SPRING": "İlkbahar",
+      "SUMMER": "Yaz",
+      "FALL": "Sonbahar"
+    },
+    "brand": "Anime Consensus"
+  }
+}

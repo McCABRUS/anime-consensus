@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Suchen",
+    "english": "Englisch",
+    "spanish": "Spanisch",
+    "menu": "Menü",
+    "close": "Schließen"
+  },
+  "header": {
+    "howItWorks": "So funktioniert es",
+    "rankings": "Rankings"
+  },
+  "hero": {
+    "eyebrow": "Daten. Normalisierung. Konsens.",
+    "titleLine1": "Die Bewertung,",
+    "titleLine2": "auf die man sich einigen kann.",
+    "description": "Anime-Bewertungen aus mehreren Quellen zusammengeführt und auf einer gemeinsamen Skala normalisiert.",
+    "searchPlaceholder": "Nach einem Anime suchen...",
+    "sourceMal": "MyAnimeList",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "Anime News Network",
+    "sourceCrunchyroll": "Crunchyroll"
+  },
+  "howItWorks": {
+    "eyebrow": "So funktioniert es",
+    "title": "Von mehreren Bewertungen zu einem Konsens.",
+    "description": "Wir sammeln Bewertungen aus verschiedenen Quellen, normalisieren ihre Skalen und berechnen einen transparenten Konsenswert.",
+    "source": {
+      "title": "Quellen",
+      "description": "Bewertungen aus mehreren Anime-Plattformen werden gesammelt."
+    },
+    "normalize": {
+      "title": "Normalisieren",
+      "description": "Unterschiedliche Bewertungsskalen werden auf eine gemeinsame 10-Punkte-Skala gebracht."
+    },
+    "consensus": {
+      "title": "Konsens",
+      "description": "Die normalisierten Bewertungen werden zu einer einzigen Konsensbewertung zusammengeführt."
+    }
+  },
+  "footer": {
+    "tagline": "Ein transparenter Konsens aus mehreren Anime-Bewertungen."
+  },
+  "anime": {
+    "brand": "Anime Consensus",
+    "synopsis": "Zusammenfassung",
+    "format": "Format",
+    "status": "Status",
+    "episodes": "Episoden",
+    "season": "Staffel",
+    "studio": "Studio",
+    "productionCompanies": "Produktionsfirmen",
+    "unknown": "Unbekannt",
+    "noDescription": "Keine Beschreibung verfügbar.",
+    "tvdbSource": "(Quelle: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Film",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Special",
+      "TV_SHORT": "TV-Kurzfilm",
+      "MUSIC": "Musik"
+    },
+    "statusValues": {
+      "FINISHED": "Abgeschlossen",
+      "RELEASING": "Läuft",
+      "NOT_YET_RELEASED": "Noch nicht veröffentlicht",
+      "CANCELLED": "Abgesetzt",
+      "HIATUS": "Pausiert"
+    },
+    "seasons": {
+      "WINTER": "Winter",
+      "SPRING": "Frühling",
+      "SUMMER": "Sommer",
+      "FALL": "Herbst"
+    }
+  }
+}

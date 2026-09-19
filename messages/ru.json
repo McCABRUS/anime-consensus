@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Поиск",
+    "english": "Английский",
+    "spanish": "Испанский",
+    "menu": "Меню",
+    "close": "Закрыть"
+  },
+  "header": {
+    "howItWorks": "Как это работает",
+    "rankings": "Рейтинги"
+  },
+  "hero": {
+    "eyebrow": "Данные. Нормализация. Консенсус.",
+    "titleLine1": "Оценка,",
+    "titleLine2": "с которой можно согласиться.",
+    "description": "Оценки аниме из нескольких источников объединяются и нормализуются по общей шкале.",
+    "searchPlaceholder": "Поиск аниме...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Как это работает",
+    "title": "От нескольких оценок к консенсусу.",
+    "description": "Мы собираем оценки из разных источников, нормализуем их шкалы и рассчитываем прозрачную консенсусную оценку.",
+    "source": {
+      "title": "Источники",
+      "description": "Мы собираем оценки с нескольких аниме-платформ."
+    },
+    "normalize": {
+      "title": "Нормализация",
+      "description": "Разные шкалы оценок преобразуются в единую десятибалльную шкалу."
+    },
+    "consensus": {
+      "title": "Консенсус",
+      "description": "Нормализованные оценки объединяются в одну консенсусную оценку."
+    }
+  },
+  "footer": {
+    "tagline": "Прозрачный консенсус на основе нескольких оценок аниме."
+  },
+  "anime": {
+    "synopsis": "Сюжет",
+    "format": "Формат",
+    "status": "Статус",
+    "episodes": "Эпизоды",
+    "season": "Сезон",
+    "studio": "Студия",
+    "productionCompanies": "Производственные компании",
+    "unknown": "Неизвестно",
+    "noDescription": "Описание отсутствует.",
+    "tvdbSource": "(Источник: TheTVDB)",
+    "formats": {
+      "TV": "ТВ",
+      "MOVIE": "Фильм",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Спецвыпуск",
+      "TV_SHORT": "ТВ-короткометражка",
+      "MUSIC": "Музыка"
+    },
+    "statusValues": {
+      "FINISHED": "Завершено",
+      "RELEASING": "Выходит",
+      "NOT_YET_RELEASED": "Ещё не вышло",
+      "CANCELLED": "Отменено",
+      "HIATUS": "Приостановлено"
+    },
+    "seasons": {
+      "WINTER": "Зима",
+      "SPRING": "Весна",
+      "SUMMER": "Лето",
+      "FALL": "Осень"
+    },
+    "brand": "Anime Consensus"
+  }
+}

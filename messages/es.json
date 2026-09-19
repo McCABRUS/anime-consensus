@@ -53,6 +53,8 @@
     "productionCompanies": "Productoras",
     "unknown": "—",
     "noDescription": "No hay una descripción disponible.",
+    "tvdbSource": "(Fuente: TheTVDB)",
+    "tvdbSource": "(Source: TheTVDB)",
     "formats": {
       "TV": "TV",
       "MOVIE": "Película",

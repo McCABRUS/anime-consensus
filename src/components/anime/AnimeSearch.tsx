@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
-import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 import Image from "next/image";
 
@@ -13,19 +13,23 @@ import type { AnimeSearchResult } from "@/lib/anime/types";
 type Props = {
   placeholder: string;
   autoFocus?: boolean;
+  onNavigate?: (href: string) => void;
 };
 
-export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
+export default function AnimeSearch({
+  placeholder,
+  autoFocus = false,
+  onNavigate,
+}: Props) {
   const router = useRouter();
-  const pathname = usePathname();
-
-  const currentLocale = pathname.split("/")[1] || "en";
+  const locale = useLocale();
+  const [isNavigating, startNavigation] = useTransition();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<AnimeSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-
+  const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const requestIdRef = useRef(0);
 
@@ -89,6 +93,10 @@ export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
   }, [query]);
 
   const selectAnime = (anime: AnimeSearchResult) => {
+    if (isNavigating) {
+      return;
+    }
+
     const selectedTitle =
       anime.title.english ||
       anime.title.romaji ||
@@ -101,9 +109,16 @@ export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
 
     const slug = createAnimeSlug(selectedTitle);
 
-    router.push(
-      `/${currentLocale}/anime/${anime.provider}/${anime.id}/${slug}`,
-    );
+    const href = `/${locale}/anime/${anime.provider}/${anime.id}/${slug}`;
+
+    if (onNavigate) {
+      onNavigate(href);
+      return;
+    }
+
+    startNavigation(() => {
+      router.push(href);
+    });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -149,9 +164,28 @@ export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative" aria-busy={isNavigating}>
+      {isNavigating && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-white/35 backdrop-blur-[2px]"
+          aria-hidden="true"
+        >
+          <div className="flex items-center gap-3 rounded-full border border-zinc-200 bg-white/90 px-5 py-3 shadow-2xl backdrop-blur-xl">
+            <span className="size-4 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-950" />
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-600">
+              Loading
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className="group flex items-center rounded-2xl border border-zinc-200 bg-white/80 p-2 shadow-[0_20px_80px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-300 focus-within:border-zinc-400 focus-within:shadow-[0_24px_100px_rgba(0,0,0,0.12)]">
+        <label htmlFor={inputId} className="sr-only">
+          {placeholder}
+        </label>
         <input
+          id={inputId}
+          name="anime-search"
           ref={inputRef}
           type="search"
           value={query}
@@ -175,11 +209,12 @@ export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
           }}
           onKeyDown={handleKeyDown}
           autoComplete="off"
+          disabled={isNavigating}
           className="min-w-0 flex-1 bg-transparent px-4 py-4 text-base text-zinc-900 outline-none placeholder:text-zinc-400"
         />
 
         <div className="flex size-12 shrink-0 items-center justify-center">
-          {isLoading ? (
+          {isLoading || isNavigating ? (
             <span className="size-4 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-950" />
           ) : (
             <span className="text-xl text-zinc-500">→</span>
@@ -217,6 +252,7 @@ export default function AnimeSearch({ placeholder, autoFocus = false }: Props) {
                 }}
                 onMouseEnter={() => setHighlightedIndex(index)}
                 onClick={() => selectAnime(anime)}
+                disabled={isNavigating}
                 className={`flex w-full items-center gap-4 rounded-xl p-3 text-left transition-colors ${
                   isHighlighted
                     ? "bg-zinc-950 text-white"

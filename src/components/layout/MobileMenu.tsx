@@ -3,18 +3,15 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+
+import { locales } from "@/i18n/locales";
 
 type Props = {
-  otherLocale: string;
-  switchPath: string;
   dark?: boolean;
 };
 
-export default function MobileMenu({
-  otherLocale,
-  switchPath,
-  dark = false,
-}: Props) {
+export default function MobileMenu({ dark = false }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const t = useTranslations("common");
@@ -24,9 +21,15 @@ export default function MobileMenu({
   const isAnimePage = pathname.includes("/anime/");
   const homePath = `/${currentLocale}`;
 
+  const currentLanguage =
+    locales.find((locale) => locale.code === currentLocale) ?? locales[0];
+
   const howItWorksPath = isAnimePage
     ? `${homePath}#how-it-works`
     : "#how-it-works";
+
+  const getLocalePath = (localeCode: string) =>
+    pathname.replace(`/${currentLocale}`, `/${localeCode}`) || `/${localeCode}`;
 
   return (
     <>
@@ -69,20 +72,52 @@ export default function MobileMenu({
               {navigation("rankings")}
             </a>
 
-            <div
+            <details
+              open
               className={`border-t pt-5 ${
                 dark ? "border-zinc-800" : "border-zinc-200"
               }`}
             >
-              <a
-                href={switchPath}
-                className={`text-sm font-semibold uppercase tracking-widest ${
+              <summary
+                className={`flex cursor-pointer list-none items-center justify-between text-sm font-semibold uppercase tracking-widest ${
                   dark ? "text-zinc-500" : "text-zinc-500"
                 }`}
               >
-                {otherLocale.toUpperCase()}
-              </a>
-            </div>
+                <span>
+                  {currentLanguage.nativeName} ({currentLanguage.code})
+                </span>
+                <span aria-hidden="true">↓</span>
+              </summary>
+
+              <div className="mt-3 grid gap-1">
+                {locales.map((locale) => {
+                  const isCurrent = locale.code === currentLocale;
+
+                  return (
+                    <Link
+                      key={locale.code}
+                      href={getLocalePath(locale.code)}
+                      aria-current={isCurrent ? "page" : undefined}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                        isCurrent
+                          ? dark
+                            ? "bg-zinc-800 text-white"
+                            : "bg-zinc-100 text-zinc-950"
+                          : dark
+                            ? "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                            : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950"
+                      }`}
+                    >
+                      <span>{locale.nativeName}</span>
+                      <span className="ml-3 shrink-0 text-[10px] font-mono uppercase opacity-50">
+                        {locale.code}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </details>
           </nav>
         </div>
       )}

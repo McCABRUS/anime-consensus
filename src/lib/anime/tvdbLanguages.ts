@@ -1,0 +1,26 @@
+import type { Locale } from "@/i18n/locales";
+
+export const TVDB_LANGUAGE_CODES: Record<Locale, string> = {
+  en: "eng",
+  es: "spa",
+  de: "deu",
+  fr: "fra",
+  it: "ita",
+  ja: "jpn",
+  ko: "kor",
+  pl: "pol",
+  "pt-PT": "pt",
+  ru: "rus",
+  "zh-CN": "zho",
+  "pt-BR": "pt",
+  ar: "ara",
+  af: "afr",
+  "zh-TW": "zhtw",
+  ca: "cat",
+  th: "tha",
+  tr: "tur",
+  vi: "vie",
+  he: "heb",
+  uk: "ukr",
+  id: "ind",
+};

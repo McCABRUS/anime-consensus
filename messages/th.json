@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "ค้นหา",
+    "english": "อังกฤษ",
+    "spanish": "สเปน",
+    "menu": "เมนู",
+    "close": "ปิด"
+  },
+  "header": {
+    "howItWorks": "วิธีการทำงาน",
+    "rankings": "อันดับ"
+  },
+  "hero": {
+    "eyebrow": "ข้อมูล การปรับมาตรฐาน ฉันทามติ",
+    "titleLine1": "คะแนน",
+    "titleLine2": "ที่ทุกคนเห็นพ้องต้องกัน",
+    "description": "รวบรวมคะแนนอนิเมะจากหลายแหล่งและปรับให้อยู่ในมาตรฐานเดียวกัน",
+    "searchPlaceholder": "ค้นหาอนิเมะ...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "วิธีการทำงาน",
+    "title": "จากหลายคะแนนสู่ฉันทามติ",
+    "description": "เรารวบรวมคะแนนจากหลายแหล่ง ปรับมาตรฐานคะแนน และคำนวณคะแนนฉันทามติที่โปร่งใส",
+    "source": {
+      "title": "แหล่งข้อมูล",
+      "description": "รวบรวมคะแนนจากแพลตฟอร์มอนิเมะหลายแห่ง"
+    },
+    "normalize": {
+      "title": "ปรับมาตรฐาน",
+      "description": "แปลงมาตราส่วนคะแนนที่แตกต่างกันให้อยู่ในมาตรฐาน 10 คะแนนเดียวกัน"
+    },
+    "consensus": {
+      "title": "ฉันทามติ",
+      "description": "รวมคะแนนที่ปรับมาตรฐานแล้วเป็นคะแนนฉันทามติเดียว"
+    }
+  },
+  "footer": {
+    "tagline": "ฉันทามติที่โปร่งใสจากคะแนนอนิเมะหลายแหล่ง"
+  },
+  "anime": {
+    "synopsis": "เรื่องย่อ",
+    "format": "รูปแบบ",
+    "status": "สถานะ",
+    "episodes": "ตอน",
+    "season": "ฤดูกาล",
+    "studio": "สตูดิโอ",
+    "productionCompanies": "บริษัทผู้ผลิต",
+    "unknown": "ไม่ทราบ",
+    "noDescription": "ไม่มีคำอธิบาย",
+    "tvdbSource": "(แหล่งที่มา: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "ภาพยนตร์",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "พิเศษ",
+      "TV_SHORT": "TV ตอนสั้น",
+      "MUSIC": "เพลง"
+    },
+    "statusValues": {
+      "FINISHED": "จบแล้ว",
+      "RELEASING": "กำลังฉาย",
+      "NOT_YET_RELEASED": "ยังไม่เผยแพร่",
+      "CANCELLED": "ยกเลิก",
+      "HIATUS": "พักการฉาย"
+    },
+    "seasons": {
+      "WINTER": "ฤดูหนาว",
+      "SPRING": "ฤดูใบไม้ผลิ",
+      "SUMMER": "ฤดูร้อน",
+      "FALL": "ฤดูใบไม้ร่วง"
+    },
+    "brand": "Anime Consensus"
+  }
+}

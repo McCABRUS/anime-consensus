@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Cerca",
+    "english": "Anglès",
+    "spanish": "Espanyol",
+    "menu": "Menú",
+    "close": "Tanca"
+  },
+  "header": {
+    "howItWorks": "Com funciona",
+    "rankings": "Classificacions"
+  },
+  "hero": {
+    "eyebrow": "Dades. Normalització. Consens.",
+    "titleLine1": "La valoració",
+    "titleLine2": "amb què podem estar d'acord.",
+    "description": "Valoracions d'anime de diverses fonts, reunides i normalitzades en una escala comuna.",
+    "searchPlaceholder": "Cerca un anime...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "Com funciona",
+    "title": "De diverses valoracions a un consens.",
+    "description": "Recollim valoracions de diferents fonts, normalitzem les seves escales i calculem una valoració de consens transparent.",
+    "source": {
+      "title": "Fonts",
+      "description": "Recollim valoracions de diverses plataformes d'anime."
+    },
+    "normalize": {
+      "title": "Normalitzar",
+      "description": "Les diferents escales de valoració es converteixen en una escala comuna de 10 punts."
+    },
+    "consensus": {
+      "title": "Consens",
+      "description": "Les valoracions normalitzades es combinen en una única valoració de consens."
+    }
+  },
+  "footer": {
+    "tagline": "Un consens transparent basat en diverses valoracions d'anime."
+  },
+  "anime": {
+    "synopsis": "Sinopsi",
+    "format": "Format",
+    "status": "Estat",
+    "episodes": "Episodis",
+    "season": "Temporada",
+    "studio": "Estudi",
+    "productionCompanies": "Empreses de producció",
+    "unknown": "Desconegut",
+    "noDescription": "No hi ha cap descripció disponible.",
+    "tvdbSource": "(Font: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "Pel·lícula",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "Especial",
+      "TV_SHORT": "Curtmetratge TV",
+      "MUSIC": "Música"
+    },
+    "statusValues": {
+      "FINISHED": "Finalitzat",
+      "RELEASING": "En emissió",
+      "NOT_YET_RELEASED": "Encara no publicat",
+      "CANCELLED": "Cancel·lat",
+      "HIATUS": "En pausa"
+    },
+    "seasons": {
+      "WINTER": "Hivern",
+      "SPRING": "Primavera",
+      "SUMMER": "Estiu",
+      "FALL": "Tardor"
+    },
+    "brand": "Anime Consensus"
+  }
+}

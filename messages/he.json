@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "חיפוש",
+    "english": "אנגלית",
+    "spanish": "ספרדית",
+    "menu": "תפריט",
+    "close": "סגור"
+  },
+  "header": {
+    "howItWorks": "איך זה עובד",
+    "rankings": "דירוגים"
+  },
+  "hero": {
+    "eyebrow": "נתונים. נרמול. קונצנזוס.",
+    "titleLine1": "הדירוג",
+    "titleLine2": "שאפשר להסכים עליו.",
+    "description": "דירוגי אנימה ממקורות שונים, מאוחדים ומנורמלים לסולם משותף.",
+    "searchPlaceholder": "חיפוש אנימה...",
+    "sourceMal": "MAL",
+    "sourceImdb": "IMDb",
+    "sourceAniList": "AniList",
+    "sourceAnn": "ANN",
+    "sourceCrunchyroll": "CR"
+  },
+  "howItWorks": {
+    "eyebrow": "איך זה עובד",
+    "title": "ממספר דירוגים לקונצנזוס.",
+    "description": "אנחנו אוספים דירוגים ממקורות שונים, מנרמלים את הסולמות שלהם ומחשבים דירוג קונצנזוס שקוף.",
+    "source": {
+      "title": "מקורות",
+      "description": "דירוגים ממספר פלטפורמות אנימה נאספים."
+    },
+    "normalize": {
+      "title": "נרמול",
+      "description": "סולמות דירוג שונים מומרות לסולם משותף של 10 נקודות."
+    },
+    "consensus": {
+      "title": "קונצנזוס",
+      "description": "הדירוגים המנורמלים משולבים לדירוג קונצנזוס אחד."
+    }
+  },
+  "footer": {
+    "tagline": "קונצנזוס שקוף המבוסס על מספר דירוגי אנימה."
+  },
+  "anime": {
+    "synopsis": "תקציר",
+    "format": "פורמט",
+    "status": "סטטוס",
+    "episodes": "פרקים",
+    "season": "עונה",
+    "studio": "סטודיו",
+    "productionCompanies": "חברות הפקה",
+    "unknown": "לא ידוע",
+    "noDescription": "אין תיאור זמין.",
+    "tvdbSource": "(מקור: TheTVDB)",
+    "formats": {
+      "TV": "TV",
+      "MOVIE": "סרט",
+      "OVA": "OVA",
+      "ONA": "ONA",
+      "SPECIAL": "מיוחד",
+      "TV_SHORT": "קצר טלוויזיוני",
+      "MUSIC": "מוזיקה"
+    },
+    "statusValues": {
+      "FINISHED": "הסתיים",
+      "RELEASING": "בשידור",
+      "NOT_YET_RELEASED": "טרם יצא",
+      "CANCELLED": "בוטל",
+      "HIATUS": "בהפסקה"
+    },
+    "seasons": {
+      "WINTER": "חורף",
+      "SPRING": "אביב",
+      "SUMMER": "קיץ",
+      "FALL": "סתיו"
+    },
+    "brand": "Anime Consensus"
+  }
+}
