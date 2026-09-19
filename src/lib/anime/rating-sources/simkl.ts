@@ -118,10 +118,6 @@ export const simklRatingSource: RatingSource = {
   async getRating(anime: CanonicalAnime) {
     const malId = anime.ids.mal;
     const clientId = process.env.SIMKL_CLIENT_ID;
-    console.info("[Simkl] Client ID check.", {
-      configured: Boolean(clientId),
-      prefix: clientId ? `${clientId.slice(0, 6)}...` : null,
-    });
 
     if (malId === null) {
       console.warn("[Simkl] No MAL ID available.");
