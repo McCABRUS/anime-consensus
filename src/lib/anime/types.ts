@@ -6,6 +6,7 @@ export type RatingProvider =
   | "kitsu"
   | "animenewsnetwork"
   | "shikimori"
+  | "simkl"
   | "imdb"
   | "crunchyroll";
 

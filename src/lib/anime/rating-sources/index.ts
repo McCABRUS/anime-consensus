@@ -17,12 +17,15 @@ import { kitsuRatingSource } from "./kitsu";
 
 import { shikimoriRatingSource } from "./shikimori";
 
+import { simklRatingSource } from "./simkl";
+
 export const ratingSources: RatingSource[] = [
   malRatingSource,
   aniListRatingSource,
   kitsuRatingSource,
   annRatingSource,
   shikimoriRatingSource,
+  simklRatingSource,
 ];
 
 export async function getRatings(anime: CanonicalAnime): Promise<{

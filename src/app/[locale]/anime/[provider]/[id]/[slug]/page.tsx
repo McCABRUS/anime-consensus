@@ -55,6 +55,7 @@ const PROVIDER_NAMES: Record<RatingProvider, string> = {
   kitsu: "Kitsu",
   imdb: "IMDb",
   shikimori: "Shikimori Community Average",
+  simkl: "Simkl",
   animenewsnetwork: "Anime News Network",
   crunchyroll: "Crunchyroll",
 };
@@ -147,7 +148,7 @@ function RatingRow({
               rel="noreferrer"
               className="mt-1 block text-[10px] uppercase tracking-[0.15em] text-zinc-600 transition-colors hover:text-zinc-300"
             >
-              Anime News Network →
+              {PROVIDER_NAMES[provider]} →
             </a>
           )}
         </div>
