@@ -1,9 +1,6 @@
 import { searchAniList } from "./providers/anilist";
-
 import { searchJikan } from "./providers/jikan";
-
 import { searchKitsu } from "./providers/kitsu";
-
 import type { AnimeSearchResult } from "./types";
 
 export async function searchAnime(query: string): Promise<AnimeSearchResult[]> {
@@ -24,41 +21,44 @@ export async function searchAnime(query: string): Promise<AnimeSearchResult[]> {
     },
   ] as const;
 
-  try {
-    const result = await Promise.any(
-      primaryProviders.map(async (provider) => {
-        try {
-          const results = await provider.search();
+  const primaryResults = await Promise.all(
+    primaryProviders.map(async (provider) => {
+      try {
+        const results = await provider.search();
 
-          if (results.length === 0) {
-            throw new Error("No results");
-          }
+        return {
+          provider: provider.name,
+          results,
+          failed: false,
+        };
+      } catch {
+        console.warn(`[Anime Search] ${provider.name} request failed.`);
 
-          return results;
-        } catch (error) {
-          console.warn(
-            `[Anime Search] Provider "${provider.name}" failed:`,
-            error,
-          );
-
-          throw error;
-        }
-      }),
-    );
-
-    return result;
-  } catch {
-    try {
-      const results = await searchJikan(normalizedQuery);
-
-      if (results.length > 0) {
-        return results;
+        return {
+          provider: provider.name,
+          results: [],
+          failed: true,
+        };
       }
+    }),
+  );
 
-      console.warn('[Anime Search] Provider "jikan" returned no results.');
-    } catch (error) {
-      console.warn('[Anime Search] Provider "jikan" failed:', error);
+  const successfulResult = primaryResults.find(
+    ({ results }) => results.length > 0,
+  );
+
+  if (successfulResult) {
+    return successfulResult.results;
+  }
+
+  try {
+    const results = await searchJikan(normalizedQuery);
+
+    if (results.length > 0) {
+      return results;
     }
+  } catch {
+    console.warn("[Anime Search] jikan request failed.");
   }
 
   return [];

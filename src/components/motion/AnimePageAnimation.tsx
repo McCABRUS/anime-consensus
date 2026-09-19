@@ -56,10 +56,6 @@ export default function AnimePageAnimation({ children }: Props) {
       const ratingRows = scope.querySelectorAll<HTMLElement>(
         ".anime-page-rating-row",
       );
-      const synopsis = scope.querySelector<HTMLElement>(".anime-page-synopsis");
-      const description = scope.querySelector<HTMLElement>(
-        ".anime-page-description",
-      );
 
       if (!hero || !cover || !heroCopy || !title) {
         return;
@@ -262,41 +258,6 @@ export default function AnimePageAnimation({ children }: Props) {
           scrollTrigger: {
             trigger: consensusSection,
             start: "top 64%",
-            once: true,
-          },
-        });
-      }
-
-      if (synopsis && description) {
-        gsap.set([synopsis, description], {
-          opacity: 0,
-          y: 42,
-          filter: "blur(7px)",
-        });
-
-        gsap.to(synopsis, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.68,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: synopsis,
-            start: "top 82%",
-            once: true,
-          },
-        });
-
-        gsap.to(description, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.9,
-          delay: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: description,
-            start: "top 84%",
             once: true,
           },
         });

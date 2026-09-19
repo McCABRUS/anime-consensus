@@ -98,7 +98,7 @@ function Description({ text }: { text: string | null }) {
     .filter(Boolean);
 
   return (
-    <div className="mt-5 max-w-3xl space-y-6 text-lg leading-8 text-zinc-400">
+    <div className="mt-5 max-w-3xl space-y-6 text-lg leading-8 text-zinc-400 !opacity-100 !visible">
       {paragraphs.map((paragraph, index) => (
         <p key={`${index}-${paragraph.slice(0, 20)}`}>{paragraph}</p>
       ))}
@@ -441,7 +441,7 @@ export default async function AnimePage({ params }: Props) {
             </p>
 
             {localizedDescription ? (
-              <div className="anime-page-description">
+              <div className="anime-page-description !opacity-100 !visible">
                 <Description text={localizedDescription} />
               </div>
             ) : (

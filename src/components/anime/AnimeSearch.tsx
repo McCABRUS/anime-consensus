@@ -299,7 +299,7 @@ export default function AnimeSearch({
       : null;
 
   return (
-    <div aria-busy={isNavigating}>
+    <div className="relative" aria-busy={isNavigating}>
       {loadingOverlay}
 
       <div className="group flex items-center rounded-2xl border border-zinc-200 bg-white/80 p-2 shadow-[0_20px_80px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-300 focus-within:border-zinc-400 focus-within:shadow-[0_24px_100px_rgba(0,0,0,0.12)]">
