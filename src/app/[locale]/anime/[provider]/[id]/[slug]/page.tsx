@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -5,7 +7,6 @@ import Header from "@/components/layout/Header";
 import AnimePageAnimation from "@/components/motion/AnimePageAnimation";
 
 import { calculateConsensus } from "@/lib/anime/consensus";
-
 import { resolveCanonicalAnime } from "@/lib/anime/resolve";
 import type {
   AnimeProvider,
@@ -59,6 +60,10 @@ const PROVIDER_NAMES: Record<RatingProvider, string> = {
   animenewsnetwork: "Anime News Network",
   crunchyroll: "Crunchyroll",
 };
+
+const getAnime = cache(async (provider: AnimeProvider, id: string) =>
+  resolveCanonicalAnime(provider, id),
+);
 
 function isAnimeProvider(provider: string): provider is AnimeProvider {
   return VALID_PROVIDERS.includes(provider as AnimeProvider);
@@ -161,6 +166,42 @@ function RatingRow({
   );
 }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, provider, id } = await params;
+
+  if (!isAnimeProvider(provider)) {
+    return {};
+  }
+
+  const anime = await getAnime(provider, id);
+
+  if (!anime) {
+    return {};
+  }
+
+  const tabTitle =
+    locale === "ja"
+      ? anime.title.native ||
+        anime.title.romaji ||
+        anime.title.english ||
+        "Unknown anime"
+      : anime.title.romaji ||
+        anime.title.english ||
+        anime.title.native ||
+        "Unknown anime";
+
+  const localizedDescription =
+    locale !== "en"
+      ? (anime.localizedMetadata?.translations[locale]?.overview ??
+        anime.description)
+      : anime.description;
+
+  return {
+    title: tabTitle,
+    description: localizedDescription ?? undefined,
+  };
+}
+
 export default async function AnimePage({ params }: Props) {
   const { locale, provider, id } = await params;
 
@@ -173,7 +214,7 @@ export default async function AnimePage({ params }: Props) {
     namespace: "anime",
   });
 
-  const anime = await resolveCanonicalAnime(provider, id);
+  const anime = await getAnime(provider, id);
 
   if (!anime) {
     notFound();

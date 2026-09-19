@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
-import { GoogleTagManager } from "@next/third-parties/google";
+
 import "../globals.css";
 
 const inter = Inter({
@@ -21,7 +22,10 @@ const spaceGrotesk = Space_Grotesk({
 const rtlLocales = new Set(["ar", "he"]);
 
 export const metadata: Metadata = {
-  title: "Anime Consensus",
+  title: {
+    default: "Anime Consensus",
+    template: "%s | Anime Consensus",
+  },
   description:
     "Compare anime ratings from multiple platforms and discover the consensus score.",
 };
@@ -45,6 +49,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={direction}>
       <GoogleTagManager gtmId="GTM-WRJRMFP2" />
+
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
