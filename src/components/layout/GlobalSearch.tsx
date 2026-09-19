@@ -38,6 +38,7 @@ export default function GlobalSearch({ dark = false }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("common");
+  const animeT = useTranslations("anime");
 
   const isNavigating = pendingPath !== null && pathname !== pendingPath;
 
@@ -213,7 +214,7 @@ export default function GlobalSearch({ dark = false }: Props) {
               />
 
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">
-                Loading
+                {animeT("loading")}
               </span>
             </div>
           </div>,

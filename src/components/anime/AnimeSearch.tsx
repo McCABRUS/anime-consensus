@@ -9,6 +9,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import gsap from "gsap";
 
@@ -34,6 +35,7 @@ export default function AnimeSearch({
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("anime");
 
   const currentLocale = pathname.split("/")[1] || "en";
 
@@ -288,7 +290,7 @@ export default function AnimeSearch({
               />
 
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">
-                Loading
+                {t("loading")}
               </span>
             </div>
           </div>,

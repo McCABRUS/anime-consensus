@@ -63,6 +63,17 @@ function isAnimeProvider(provider: string): provider is AnimeProvider {
   return VALID_PROVIDERS.includes(provider as AnimeProvider);
 }
 
+function getGenreKey(genre: string): string {
+  return genre
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, " AND ")
+    .replace(/['’]/g, "")
+    .replace(/[^A-Za-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .toUpperCase();
+}
+
 function Metric({ label, value }: { label: string; value: string | null }) {
   return (
     <div className="border-b border-zinc-800 pb-4 last:border-0 last:pb-0">
@@ -168,6 +179,7 @@ export default async function AnimePage({ params }: Props) {
   }
 
   const consensus = calculateConsensus(anime.ratings);
+  const genreTranslations = t.raw("genreValues") as Record<string, string>;
 
   const defaultTitle =
     anime.title.english ||
@@ -194,15 +206,15 @@ export default async function AnimePage({ params }: Props) {
 
   const additionalTitles = [
     {
-      label: "English",
+      label: t("english"),
       value: anime.title.english,
     },
     {
-      label: "Original",
+      label: t("original"),
       value: anime.title.native,
     },
     {
-      label: "Reading",
+      label: t("reading"),
       value: anime.title.romaji,
     },
   ];
@@ -212,7 +224,7 @@ export default async function AnimePage({ params }: Props) {
   const displayedTitles = [
     ...additionalTitles,
     ...alternativeTitles.map((value) => ({
-      label: "Alternative",
+      label: t("alternative"),
       value,
     })),
   ].filter(({ value }) => {
@@ -316,7 +328,7 @@ export default async function AnimePage({ params }: Props) {
                         key={genre}
                         className="rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-400"
                       >
-                        {genre}
+                        {genreTranslations[getGenreKey(genre)] ?? genre}
                       </span>
                     ))}
                   </div>
